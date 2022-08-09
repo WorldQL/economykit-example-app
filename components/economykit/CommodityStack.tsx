@@ -1,7 +1,11 @@
 import { type FC } from 'react'
 
 interface Props {
-  // TODO
+  // TODO: Match to API model
+  name: string
+  quantity: number
 }
 
-export const CommodityStack: FC<Props> = ({}) => <div>CommodityStack</div>
+export const CommodityStack: FC<Props> = ({ name, quantity }) => (
+  <div>CommodityStack</div>
+)

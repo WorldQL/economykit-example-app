@@ -1,7 +1,8 @@
 import { type FC } from 'react'
 
 interface Props {
-  // TODO
+  // TODO: Match to API model
+  name: string
 }
 
-export const UniqueItem: FC<Props> = ({}) => <div>UniqueItem</div>
+export const UniqueItem: FC<Props> = ({ name }) => <div>UniqueItem</div>

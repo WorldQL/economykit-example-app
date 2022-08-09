@@ -1,7 +1,11 @@
 import { type FC } from 'react'
 
-interface Trade {
-  // TODO
+interface Props {
+  // TODO: Match to API model
+  originator: unknown
+  recipient: unknown
 }
 
-export const Inventory: FC<Props> = ({}) => <div>Inventory</div>
+export const Inventory: FC<Props> = ({ originator, recipient }) => (
+  <div>Inventory</div>
+)
