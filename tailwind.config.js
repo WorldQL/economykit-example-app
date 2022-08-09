@@ -11,6 +11,13 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', ...fontFamily.sans],
       },
+      colors: {
+        primary: {
+          DEFAULT: '#2563eb',
+          dark: '#1450d5',
+          darker: '#1249c3',
+        },
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

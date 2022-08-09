@@ -9,9 +9,7 @@ const Home: NextPage = () => {
         <title>EconomyKit Example App</title>
       </Head>
 
-      <div>
-        <Login />
-      </div>
+      <Login />
     </>
   )
 }
