@@ -3,6 +3,7 @@ import {
   type ChangeEventHandler,
   type CSSProperties,
   type FC,
+  type KeyboardEventHandler,
   useCallback,
   useId,
 } from 'react'
@@ -10,6 +11,7 @@ import {
 interface Props {
   value: string
   onChange: (value: string) => void
+  onSubmit?: () => void
 
   label?: string
   placeholder?: string
@@ -21,6 +23,7 @@ interface Props {
 export const TextInput: FC<Props> = ({
   value,
   onChange,
+  onSubmit,
   label,
   placeholder,
   className,
@@ -32,6 +35,14 @@ export const TextInput: FC<Props> = ({
       if (typeof onChange === 'function') onChange(ev.target.value)
     },
     [onChange]
+  )
+
+  const handleKeyDown = useCallback<KeyboardEventHandler<HTMLInputElement>>(
+    ev => {
+      if (ev.key !== 'Enter') return
+      if (typeof onSubmit === 'function') onSubmit()
+    },
+    [onSubmit]
   )
 
   return (
@@ -53,6 +64,7 @@ export const TextInput: FC<Props> = ({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
     </div>
   )

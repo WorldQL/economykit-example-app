@@ -27,7 +27,7 @@ export const Button: FC<PropsWithChildren<Props>> = ({
     <button
       type='button'
       className={clsx(
-        'text-[0.9rem] text-white bg-primary transition-colors rounded-md px-2 py-2 hover:bg-primary-dark active:bg-primary-darker',
+        'text-[0.9rem] text-white bg-primary transition-colors rounded-md px-4 py-2 hover:bg-primary-dark active:bg-primary-darker',
         className
       )}
       style={style}
