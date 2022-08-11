@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type FC, PropsWithChildren, useCallback, useMemo } from 'react'
+import { useAuth } from '~/lib/hooks/useAuth'
 import { Button } from './Button'
 
 export type NavItems = Array<[name: string, href: string]>
@@ -10,9 +11,8 @@ interface Props {
 }
 
 export const Navbar: FC<Props> = ({ nav }) => {
-  const handleSignOut = useCallback(() => {
-    // TODO
-  }, [])
+  const { clearUsername } = useAuth()
+  const handleSignOut = useCallback(() => clearUsername(), [clearUsername])
 
   return (
     <div className='flex items-center gap-4 w-full px-4 h-16 bg-white shadow'>

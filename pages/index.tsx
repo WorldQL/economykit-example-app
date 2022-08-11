@@ -1,11 +1,11 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
-import { useState } from 'react'
 import { Home } from '~/components/views/Home'
 import { Login } from '~/components/views/Login'
+import { useAuth } from '~/lib/hooks/useAuth'
 
 const Root: NextPage = () => {
-  const [username, setUsername] = useState<string | undefined>(undefined)
+  const { loaded, username, setUsername } = useAuth()
 
   return (
     <>
@@ -13,7 +13,7 @@ const Root: NextPage = () => {
         <title>EconomyKit Example App</title>
       </Head>
 
-      {!username ? (
+      {!loaded ? null : !username ? (
         <Login onLogin={setUsername} />
       ) : (
         <Home username={username} />
