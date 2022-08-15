@@ -15,7 +15,7 @@ export const Navbar: FC<Props> = ({ nav }) => {
   const handleSignOut = useCallback(() => clearUsername(), [clearUsername])
 
   return (
-    <div className='flex items-center gap-4 w-full px-4 h-16 bg-white shadow'>
+    <div className='z-10 flex items-center gap-4 w-full px-4 h-16 bg-white shadow'>
       <div className='text-lg font-bold mr-4'>EconomyKit</div>
 
       {nav.map(([item, href]) => (
