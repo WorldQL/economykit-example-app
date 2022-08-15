@@ -11,17 +11,23 @@ interface Props {
 
 export const Inventory: FC<Props> = ({ items, commodities }) => (
   <Card>
-    <div className='flex flex-col'>
-      <h2 className='text-lg font-bold'>Inventory</h2>
+    <div className='flex flex-col gap-4'>
+      <h2 className='text-xl font-bold'>Inventory</h2>
 
-      <div className='flex w-full'>
+      <div className='flex w-full gap-6'>
         <div className='grid grid-rows-5 grid-cols-5 gap-2'>
           {items.map((_, i) =>
-            i % 2 === 0 ? <UniqueItem /> : <CommodityStack quantity={i} />
+            i % 2 === 0 ? (
+              <UniqueItem name={`${i}`} />
+            ) : (
+              <CommodityStack name={`${i}`} quantity={i} />
+            )
           )}
         </div>
 
-        <div className='flex-grow'>content</div>
+        <div className='flex-grow rounded outline outline-offset-2'>
+          content
+        </div>
       </div>
     </div>
   </Card>
