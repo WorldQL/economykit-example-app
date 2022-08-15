@@ -18,7 +18,7 @@ export const CommodityStack: FC<Props> = ({ name, quantity }) => {
   }, [quantity])
 
   return (
-    <BaseItem img={Grass.src} className='ring-gray-300'>
+    <BaseItem img={Grass.src} className='outline-gray-400'>
       <div className='absolute top-[2px] left-[2px] text-white bg-black/60 text-xs px-1 rounded'>
         {qty}
       </div>

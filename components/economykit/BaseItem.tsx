@@ -19,7 +19,7 @@ export const BaseItem: FC<PropsWithChildren<Props>> = ({
   <div
     style={style}
     className={clsx(
-      'relative aspect-square rounded ring ring-offset-2 w-24 m-1 flex items-center justify-center',
+      'relative aspect-square rounded outline outline-offset-2 w-24 m-1 flex items-center justify-center',
       className
     )}
   >

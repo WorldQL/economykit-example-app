@@ -7,4 +7,6 @@ interface Props {
   name: string
 }
 
-export const UniqueItem: FC<Props> = ({ name }) => <BaseItem img={Dirt.src} />
+export const UniqueItem: FC<Props> = ({ name }) => {
+  return <BaseItem img={Dirt.src} className='outline-primary' />
+}
