@@ -16,7 +16,7 @@ export const Navbar: FC<Props> = ({ nav }) => {
 
   return (
     <div className='z-10 flex items-center gap-4 w-full px-4 h-16 bg-white shadow'>
-      <div className='text-lg font-bold mr-4'>EconomyKit</div>
+      <div className='text-lg font-bold mr-4'>Example App</div>
 
       {nav.map(([item, href]) => (
         <NavbarItem key={href} href={href}>
