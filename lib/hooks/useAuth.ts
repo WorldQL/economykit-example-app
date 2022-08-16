@@ -1,31 +1,31 @@
 import { useCallback } from 'react'
 import useSWR from 'swr'
 
-const STORAGE_KEY = 'username'
-type Username = string | undefined
+const STORAGE_KEY = 'auth-token'
+type AuthToken = string | undefined
 
-const getUsername: () => Username = () => {
+const getAuthToken: () => AuthToken = () => {
   return localStorage.getItem(STORAGE_KEY) ?? undefined
 }
 
-const setUsername: (name: Username) => void = name => {
+const setAuthToken: (name: AuthToken) => void = name => {
   if (name === undefined) localStorage.removeItem(STORAGE_KEY)
   else localStorage.setItem(STORAGE_KEY, name)
 }
 
 export const useAuth = () => {
-  const { data: username, mutate } = useSWR('/auth/username', getUsername)
+  const { data: username, mutate } = useSWR('/auth/username', getAuthToken)
 
   const updateUsername = useCallback(
     (name: string) => {
-      setUsername(name)
+      setAuthToken(name)
       void mutate(name)
     },
     [mutate]
   )
 
   const clearUsername = useCallback(() => {
-    setUsername(undefined)
+    setAuthToken(undefined)
     void mutate(undefined)
   }, [mutate])
 
