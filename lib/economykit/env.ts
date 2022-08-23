@@ -1,10 +1,8 @@
-import { env } from 'node:process'
-import { URL } from 'node:url'
+/* eslint-disable n/prefer-global/process */
 
-const { NEXT_PUBLIC_ECONOMYKIT_APP_URL, ECONOMYKIT_APP_TOKEN } = env
+export const ECONOMYKIT_APP_TOKEN = process.env.ECONOMYKIT_APP_TOKEN
+const ECONOMYKIT_APP_URL = process.env.NEXT_PUBLIC_ECONOMYKIT_APP_URL
 
 export const baseURL = new URL(
-  NEXT_PUBLIC_ECONOMYKIT_APP_URL ?? 'https://app.economykit.com/'
+  ECONOMYKIT_APP_URL ?? 'https://app.economykit.com/'
 ).toString()
-
-export { ECONOMYKIT_APP_TOKEN }
