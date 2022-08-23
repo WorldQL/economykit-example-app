@@ -1,11 +1,5 @@
 import Axios, { type AxiosError } from 'axios'
-import { env } from 'node:process'
-import { URL } from 'node:url'
-
-const { ECONOMYKIT_APP_URL, ECONOMYKIT_APP_TOKEN } = env
-export const baseURL = new URL(
-  ECONOMYKIT_APP_URL ?? 'https://app.economykit.com/'
-).toString()
+import { baseURL, ECONOMYKIT_APP_TOKEN } from './env'
 
 if (!ECONOMYKIT_APP_TOKEN) {
   throw new Error('ECONOMYKIT_APP_TOKEN not specified')
@@ -88,5 +82,5 @@ export const provisionToken = async (expireTimeMS: number, player?: string) => {
     body
   )
 
-  return data
+  return { ...data, expires: date }
 }

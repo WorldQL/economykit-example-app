@@ -2,7 +2,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import ms from 'ms'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import nc from 'next-connect'
-import { baseURL, playerID, provisionToken } from '~/lib/economykit'
+import { playerID, provisionToken } from '~/lib/economykit/auth'
 
 const stringParameter = (request: NextApiRequest, key: string) => {
   const value = request.body[key] as unknown
@@ -12,9 +12,16 @@ const stringParameter = (request: NextApiRequest, key: string) => {
 }
 
 // Hardcoded expiry time
-const expires = ms('72')
+const expires = ms('72h')
 
-const handler = nc<NextApiRequest, NextApiResponse>()
+export interface AuthResponse {
+  id: string
+  displayName: string
+  token: string
+  expires: Date | string
+}
+
+const handler = nc<NextApiRequest, NextApiResponse<AuthResponse | string>>()
 handler.post(async (request, resp) => {
   const name = stringParameter(request, 'name')
   if (!name) {
@@ -31,8 +38,7 @@ handler.post(async (request, resp) => {
     id: idResp.player_id,
     displayName: idResp.display_name,
     token: tokenResp.key,
-
-    baseURL,
+    expires: tokenResp.expires,
   })
 })
 
