@@ -4,10 +4,13 @@ import { Card } from '~/components/ui/Card'
 import { TextInput } from '~/components/ui/TextInput'
 
 interface Props {
+  loading: boolean
+  error?: Error
+
   onLogin: (username: string) => void
 }
 
-export const Login: FC<Props> = ({ onLogin }) => {
+export const Login: FC<Props> = ({ loading, onLogin }) => {
   const [username, setUsername] = useState<string>('')
   const handleClick = useCallback(() => {
     if (!username) return
@@ -24,11 +27,14 @@ export const Login: FC<Props> = ({ onLogin }) => {
         <TextInput
           label='Username'
           value={username}
+          disabled={loading}
           onChange={setUsername}
           onSubmit={handleClick}
         />
 
-        <Button onClick={handleClick}>Sign In</Button>
+        <Button disabled={loading} onClick={handleClick}>
+          {loading ? 'Loading...' : 'Sign In'}
+        </Button>
       </Card>
     </div>
   )

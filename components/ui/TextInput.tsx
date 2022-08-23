@@ -15,6 +15,7 @@ interface Props {
 
   label?: string
   placeholder?: string
+  disabled?: boolean
 
   className?: string
   style?: CSSProperties
@@ -26,6 +27,7 @@ export const TextInput: FC<Props> = ({
   onSubmit,
   label,
   placeholder,
+  disabled,
   className,
   style,
 }) => {
@@ -62,6 +64,7 @@ export const TextInput: FC<Props> = ({
         )}
         style={style}
         placeholder={placeholder}
+        disabled={disabled}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

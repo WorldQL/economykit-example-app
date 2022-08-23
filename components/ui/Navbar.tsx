@@ -11,8 +11,13 @@ interface Props {
 }
 
 export const Navbar: FC<Props> = ({ nav }) => {
-  const { clearUsername } = useAuth()
-  const handleSignOut = useCallback(() => clearUsername(), [clearUsername])
+  const { logout } = useAuth()
+  const { push } = useRouter()
+
+  const handleSignOut = useCallback(() => {
+    logout()
+    void push('/login')
+  }, [logout, push])
 
   return (
     <div className='z-10 flex items-center gap-4 w-full px-4 h-16 bg-white shadow'>
