@@ -1,14 +1,11 @@
 import { type FC, useMemo } from 'react'
-import Grass from '../../Grass_Block_JE7_BE6.png'
+import { CommodityStack as CommodityStackModel } from '~/lib/economykit/inventory'
 import { BaseItem } from './BaseItem'
 
-interface Props {
-  // TODO: Match to API model
-  name: string
-  quantity: number
-}
-
-export const CommodityStack: FC<Props> = ({ name, quantity }) => {
+export const CommodityStack: FC<CommodityStackModel> = ({
+  image,
+  quantity,
+}) => {
   const qty = useMemo<string>(() => {
     const human = quantity.toLocaleString(undefined, {
       maximumFractionDigits: 0,
@@ -18,8 +15,8 @@ export const CommodityStack: FC<Props> = ({ name, quantity }) => {
   }, [quantity])
 
   return (
-    <BaseItem img={Grass.src} className='outline-gray-400'>
-      <div className='absolute top-[2px] left-[2px] text-white bg-black/60 text-xs px-1 rounded'>
+    <BaseItem img={image} className='outline-gray-400'>
+      <div className='absolute top-[1px] left-[1px] text-white bg-black/60 text-xs px-1 rounded'>
         {qty}
       </div>
     </BaseItem>
