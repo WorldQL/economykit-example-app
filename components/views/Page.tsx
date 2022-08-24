@@ -11,9 +11,9 @@ const nav: NavItems = [
 ]
 
 export const Page: FC<PropsWithChildren<Props>> = ({ username, children }) => (
-  <div className='flex flex-col w-full'>
+  <div className='flex w-full flex-col'>
     <Navbar nav={nav} />
 
-    <div className='w-full max-w-[1800px] mx-auto p-8'>{children}</div>
+    <div className='mx-auto w-full max-w-[1800px] p-8'>{children}</div>
   </div>
 )

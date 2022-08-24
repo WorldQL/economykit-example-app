@@ -24,7 +24,7 @@ export const Inventory: FC<InventoryModel> = ({
           blankItem={idx => <BlankItem key={idx} />}
         />
 
-        <div className='flex-grow rounded m-1 p-2 outline outline-offset-2 outline-gray-400'>
+        <div className='m-1 flex-grow rounded p-2 outline outline-offset-2 outline-gray-400'>
           content
         </div>
       </div>

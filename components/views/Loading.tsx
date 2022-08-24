@@ -8,7 +8,7 @@ export const Loading: FC = () => (
       <title>EconomyKit Example App</title>
     </Head>
 
-    <div className='flex flex-col items-center justify-center h-full'>
+    <div className='flex h-full flex-col items-center justify-center'>
       <Card className='flex flex-col gap-3 text-center'>
         <h2 className='text-lg font-bold'>EconomyKit Example App</h2>
         <span>Loading...</span>

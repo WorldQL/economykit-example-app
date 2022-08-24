@@ -59,7 +59,7 @@ export const TextInput: FC<Props> = ({
         id={id}
         type='text'
         className={clsx(
-          'text-[0.9rem] block rounded-md shadow-sm border-gray-300 focus:border-primary focus:ring-primary',
+          'block rounded-md border-gray-300 text-[0.9rem] shadow-sm focus:border-primary focus:ring-primary',
           className
         )}
         style={style}

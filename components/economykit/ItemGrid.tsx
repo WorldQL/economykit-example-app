@@ -49,7 +49,7 @@ export const ItemGrid: FC<Props> = ({
       </div>
 
       {grid.pages <= 1 ? null : (
-        <div className='w-full flex items-center justify-between'>
+        <div className='flex w-full items-center justify-between'>
           <Button disabled={grid.firstPage} onClick={grid.previousPage}>
             &lt;
           </Button>

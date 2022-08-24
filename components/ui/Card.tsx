@@ -13,7 +13,7 @@ export const Card: FC<PropsWithChildren<Props>> = ({
 }) => (
   <div
     className={clsx(
-      'rounded-lg bg-white shadow-xl shadow-black/5 ring-1 ring-slate-700/10 px-6 py-5',
+      'rounded-lg bg-white px-6 py-5 shadow-xl shadow-black/5 ring-1 ring-slate-700/10',
       className
     )}
     style={style}

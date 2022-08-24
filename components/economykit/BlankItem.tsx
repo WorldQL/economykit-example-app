@@ -8,7 +8,7 @@ export const BlankItem: FC = () => {
   return (
     <BaseItem
       img={BLANK_PIXEL}
-      className='outline-gray-100 bg-gray-50 cursor-default'
+      className='cursor-default bg-gray-50 outline-gray-100'
     />
   )
 }

@@ -16,7 +16,7 @@ export const CommodityStack: FC<CommodityStackModel> = ({
 
   return (
     <BaseItem img={image} className='outline-gray-400'>
-      <div className='absolute top-[1px] left-[1px] text-white bg-black/60 text-xs px-1 rounded'>
+      <div className='absolute top-[1px] left-[1px] rounded bg-black/60 px-1 text-xs text-white'>
         {qty}
       </div>
     </BaseItem>

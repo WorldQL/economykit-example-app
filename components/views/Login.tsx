@@ -18,8 +18,8 @@ export const Login: FC<Props> = ({ loading, onLogin }) => {
   }, [username, onLogin])
 
   return (
-    <div className='flex flex-col items-center justify-center h-full'>
-      <Card className='flex flex-col gap-3 w-96'>
+    <div className='flex h-full flex-col items-center justify-center'>
+      <Card className='flex w-96 flex-col gap-3'>
         <h2 className='text-center text-lg font-bold'>
           EconomyKit Example App
         </h2>

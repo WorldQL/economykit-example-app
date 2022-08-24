@@ -20,8 +20,8 @@ export const Navbar: FC<Props> = ({ nav }) => {
   }, [logout, push])
 
   return (
-    <div className='z-10 flex items-center gap-4 w-full px-4 h-16 bg-white shadow'>
-      <div className='text-lg font-bold mr-4'>Example App</div>
+    <div className='z-10 flex h-16 w-full items-center gap-4 bg-white px-4 shadow'>
+      <div className='mr-4 text-lg font-bold'>Example App</div>
 
       {nav.map(([item, href]) => (
         <NavbarItem key={href} href={href}>
@@ -50,7 +50,7 @@ const NavbarItem: FC<PropsWithChildren<ItemProps>> = ({ href, children }) => {
     <Link passHref href={href}>
       <a
         className={clsx(
-          'flex flex-col justify-center h-full border-y-2 border-y-transparent transition-colors',
+          'flex h-full flex-col justify-center border-y-2 border-y-transparent transition-colors',
           active && 'border-b-primary'
         )}
       >

@@ -21,14 +21,14 @@ export const BaseItem: FC<PropsWithChildren<Props>> = ({
     className={clsx(
       'relative aspect-square rounded',
       'outline outline-offset-2',
-      'w-24 m-1',
+      'm-1 w-24',
       'flex items-center justify-center',
-      'cursor-pointer group',
+      'group cursor-pointer',
       className
     )}
   >
     <img
-      className='p-1 group-hover:p-[1px] transition-[padding] rounded-lg select-none'
+      className='select-none rounded-lg p-1 transition-[padding] group-hover:p-[1px]'
       src={img}
       alt={alt}
     />
