@@ -22,7 +22,7 @@ export const useItemGrid = (
     const combined = [...uniqueItems, ...commodityStacks]
     const nearest = Math.ceil(combined.length / squared) * squared
 
-    const pad = nearest - combined.length
+    const pad = nearest === 0 ? squared : nearest - combined.length
     const padding = Array.from({ length: pad }).map(() => undefined)
 
     return [...combined, ...padding]

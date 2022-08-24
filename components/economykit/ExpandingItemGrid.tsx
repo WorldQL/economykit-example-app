@@ -1,5 +1,4 @@
 import { type FC, type ReactNode } from 'react'
-import { Button } from '~/components/ui/Button'
 import {
   type CommodityStack,
   type UniqueItem,
@@ -7,6 +6,8 @@ import {
 import { useExpandingItemGrid } from '~/lib/hooks/useExpandingItemGrid'
 
 interface Props {
+  width?: number
+
   uniqueItems: readonly UniqueItem[]
   commodityStacks: readonly CommodityStack[]
 
@@ -15,17 +16,23 @@ interface Props {
   blankItem: (idx: number) => ReactNode
 }
 
-export const ItemGrid: FC<Props> = ({
+export const ExpandingItemGrid: FC<Props> = ({
+  width = 5,
   uniqueItems,
   commodityStacks,
   uniqueItem,
   commodityStack,
   blankItem,
 }) => {
-  const items = useExpandingItemGrid(uniqueItems, commodityStacks)
+  const items = useExpandingItemGrid(uniqueItems, commodityStacks, width)
 
   return (
-    <div className='grid grid-rows-5 grid-cols-5 gap-2'>
+    <div
+      className='grid gap-2'
+      style={{
+        gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
+      }}
+    >
       {items.map((item, i) =>
         item === undefined
           ? blankItem(i)
@@ -36,3 +43,5 @@ export const ItemGrid: FC<Props> = ({
     </div>
   )
 }
+
+export { type Props as ExpandingItemGridProps }

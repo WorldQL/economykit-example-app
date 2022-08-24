@@ -28,7 +28,7 @@ export const BaseItem: FC<PropsWithChildren<Props>> = ({
     )}
   >
     <img
-      className='p-1 group-hover:p-[1px] transition-[padding] rounded-lg'
+      className='p-1 group-hover:p-[1px] transition-[padding] rounded-lg select-none'
       src={img}
       alt={alt}
     />

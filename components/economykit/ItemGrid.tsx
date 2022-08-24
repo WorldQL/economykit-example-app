@@ -7,6 +7,9 @@ import {
 import { useItemGrid } from '~/lib/hooks/useItemGrid'
 
 interface Props {
+  width?: number
+  height?: number
+
   uniqueItems: readonly UniqueItem[]
   commodityStacks: readonly CommodityStack[]
 
@@ -16,17 +19,26 @@ interface Props {
 }
 
 export const ItemGrid: FC<Props> = ({
+  width = 5,
+  height = width,
   uniqueItems,
   commodityStacks,
   uniqueItem,
   commodityStack,
   blankItem,
 }) => {
-  const grid = useItemGrid(uniqueItems, commodityStacks)
+  const grid = useItemGrid(uniqueItems, commodityStacks, width, height)
+  console.log(grid)
 
   return (
     <div className='flex flex-col gap-3'>
-      <div className='grid grid-rows-5 grid-cols-5 gap-2'>
+      <div
+        className='grid gap-2'
+        style={{
+          gridTemplateRows: `repeat(${height}, minmax(0, 1fr))`,
+          gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
+        }}
+      >
         {grid.items.map((item, i) =>
           item === undefined
             ? blankItem(i)
@@ -54,3 +66,5 @@ export const ItemGrid: FC<Props> = ({
     </div>
   )
 }
+
+export { type Props as ItemGridProps }
