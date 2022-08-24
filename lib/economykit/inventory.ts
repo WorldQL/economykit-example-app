@@ -61,7 +61,14 @@ export interface CommodityStack {
   metadata: Record<string, unknown>
 }
 
-export const inventory = async ({ token }: AuthResponse) => {
+export interface Inventory {
+  uniqueItems: readonly UniqueItem[]
+  commodityStacks: readonly CommodityStack[]
+}
+
+export const inventory: (auth: AuthResponse) => Promise<Inventory> = async ({
+  token,
+}) => {
   const { data } = await axios.get<InventoryResponse>(
     '/inventories/api/v1/player-inventory/',
     {
