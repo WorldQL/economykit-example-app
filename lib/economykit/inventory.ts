@@ -62,11 +62,13 @@ export interface CommodityStack {
 }
 
 export interface Inventory {
+  id: string
   uniqueItems: readonly UniqueItem[]
   commodityStacks: readonly CommodityStack[]
 }
 
 export const inventory: (auth: AuthResponse) => Promise<Inventory> = async ({
+  id,
   token,
 }) => {
   const { data } = await axios.get<InventoryResponse>(
@@ -107,5 +109,5 @@ export const inventory: (auth: AuthResponse) => Promise<Inventory> = async ({
     }
   }
 
-  return { uniqueItems, commodityStacks }
+  return { id, uniqueItems, commodityStacks }
 }
