@@ -18,8 +18,6 @@ const InventoryPage: NextPage = () => {
   if (!auth || !inventory) return <Loading />
 
   const { displayName } = auth
-  const { uniqueItems: items, commodityStacks: commodities } = inventory
-
   return (
     <>
       <Head>
@@ -27,7 +25,7 @@ const InventoryPage: NextPage = () => {
       </Head>
 
       <Page username={displayName}>
-        <Inventory uniqueItems={items} commodityStacks={commodities} />
+        <Inventory {...inventory} />
       </Page>
     </>
   )

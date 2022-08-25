@@ -29,7 +29,7 @@ const TradeCreate: NextPage = () => {
         <Trade
           originator={originator}
           // TODO: Retrieve recipient's items
-          recipient={{ uniqueItems: [], commodityStacks: [] }}
+          recipient={{ id: 'recipient', uniqueItems: [], commodityStacks: [] }}
         />
       </Page>
     </>

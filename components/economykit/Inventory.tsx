@@ -4,10 +4,10 @@ import { CommodityStack } from '~/components/economykit/CommodityStack'
 import { UniqueItem } from '~/components/economykit/UniqueItem'
 import { Card } from '~/components/ui/Card'
 import { type Inventory as InventoryModel } from '~/lib/economykit/inventory'
-import { useItemGrid } from '~/lib/hooks/useItemGrid'
 import { ItemGrid } from './ItemGrid'
 
 export const Inventory: FC<InventoryModel> = ({
+  id,
   uniqueItems,
   commodityStacks,
 }) => (
@@ -17,6 +17,7 @@ export const Inventory: FC<InventoryModel> = ({
 
       <div className='flex w-full gap-6'>
         <ItemGrid
+          id={id}
           uniqueItems={uniqueItems}
           commodityStacks={commodityStacks}
           uniqueItem={item => <UniqueItem key={item.id} {...item} />}
