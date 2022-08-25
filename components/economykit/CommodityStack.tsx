@@ -1,10 +1,12 @@
 import { type FC, useMemo } from 'react'
-import { CommodityStack as CommodityStackModel } from '~/lib/economykit/inventory'
-import { BaseItem } from './BaseItem'
+import { type CommodityStack as CommodityStackModel } from '~/lib/economykit/inventory'
+import { BaseItem, type DragProps } from './BaseItem'
 
-export const CommodityStack: FC<CommodityStackModel> = ({
+export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
+  id,
   image,
   quantity,
+  draggable,
 }) => {
   const qty = useMemo<string>(() => {
     const human = quantity.toLocaleString(undefined, {
@@ -15,7 +17,12 @@ export const CommodityStack: FC<CommodityStackModel> = ({
   }, [quantity])
 
   return (
-    <BaseItem img={image} className='outline-gray-400'>
+    <BaseItem
+      id={id}
+      img={image}
+      draggable={draggable}
+      className='outline-gray-400'
+    >
       <div className='absolute top-[1px] left-[1px] rounded bg-black/60 px-1 text-xs text-white'>
         {qty}
       </div>

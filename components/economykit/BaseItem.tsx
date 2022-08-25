@@ -1,7 +1,11 @@
+import { useDraggable } from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
 import { clsx } from 'clsx'
 import { type CSSProperties, type FC, type PropsWithChildren } from 'react'
 
 interface Props {
+  id: string
+
   img: string
   alt?: string
 
@@ -9,29 +13,50 @@ interface Props {
   style?: CSSProperties
 }
 
-export const BaseItem: FC<PropsWithChildren<Props>> = ({
+export interface DragProps {
+  draggable?: boolean
+}
+
+export const BaseItem: FC<PropsWithChildren<Props & DragProps>> = ({
+  id,
+  draggable = false,
   img,
   alt,
   className,
   style,
   children,
-}) => (
-  <div
-    style={style}
-    className={clsx(
-      'relative aspect-square rounded',
-      'outline outline-offset-2',
-      'm-1 w-24',
-      'flex items-center justify-center',
-      'group cursor-pointer',
-      className
-    )}
-  >
-    <img
-      className='select-none rounded-lg p-1 transition-[padding] group-hover:p-[1px]'
-      src={img}
-      alt={alt}
-    />
-    {children}
-  </div>
-)
+}) => {
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id,
+      disabled: !draggable,
+    })
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        ...style,
+        zIndex: isDragging ? '100' : undefined,
+        transform: CSS.Translate.toString(transform),
+      }}
+      className={clsx(
+        'relative aspect-square rounded',
+        'outline outline-offset-2',
+        'm-1 w-24',
+        'flex items-center justify-center',
+        'group cursor-pointer',
+        className
+      )}
+      {...listeners}
+      {...attributes}
+    >
+      <img
+        className='select-none rounded-lg p-1 transition-[padding] group-hover:p-[1px]'
+        src={img}
+        alt={alt}
+      />
+      {children}
+    </div>
+  )
+}
