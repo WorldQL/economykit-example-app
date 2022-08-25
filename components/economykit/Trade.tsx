@@ -1,6 +1,13 @@
-import { type FC } from 'react'
+import { DndContext, useDroppable } from '@dnd-kit/core'
+import { type FC, type Reducer, useReducer } from 'react'
 import { Card } from '~/components/ui/Card'
-import { Inventory } from '~/lib/economykit/inventory'
+import {
+  type CommodityStack as CommodityStackModel,
+  type Inventory,
+  type UniqueItem as UniqueItemModel,
+} from '~/lib/economykit/inventory'
+import { useItemFilter } from '~/lib/hooks/useItemFilter'
+import { useItemSet } from '~/lib/hooks/useItemSet'
 import { BlankItem } from './BlankItem'
 import { CommodityStack } from './CommodityStack'
 import {
@@ -16,7 +23,44 @@ interface Props {
 }
 
 export const Trade: FC<Props> = ({ originator, recipient }) => {
-  // TODO: Drag and drop
+  const [originSet, dispatchOrigin] = useItemFilter()
+  const [recipientSet, dispatchRecipient] = useItemFilter()
+
+  const {
+    uniqueItems: originUniqueInventory,
+    commodityStacks: originStackInventory,
+  } = useItemSet(
+    originator.uniqueItems,
+    originator.commodityStacks,
+    originSet,
+    'exclude'
+  )
+
+  const { uniqueItems: originUniqueTrade, commodityStacks: originStackTrade } =
+    useItemSet(
+      originator.uniqueItems,
+      originator.commodityStacks,
+      originSet,
+      'include'
+    )
+
+  const {
+    uniqueItems: recipUniqueInventory,
+    commodityStacks: recipStackInventory,
+  } = useItemSet(
+    recipient.uniqueItems,
+    recipient.commodityStacks,
+    recipientSet,
+    'exclude'
+  )
+
+  const { uniqueItems: recipUniqueTrade, commodityStacks: recipStackTrade } =
+    useItemSet(
+      recipient.uniqueItems,
+      recipient.commodityStacks,
+      recipientSet,
+      'include'
+    )
 
   return (
     <Card>
@@ -25,16 +69,21 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
           <h2 className='-mb-3 text-center text-lg font-semibold'>
             Your Items
           </h2>
-          <DragItemGrid
-            height={3}
-            uniqueItems={originator.uniqueItems}
-            commodityStacks={originator.commodityStacks}
-          />
 
-          <DragExpandingItemGrid
-            uniqueItems={originator.uniqueItems}
-            commodityStacks={originator.commodityStacks}
-          />
+          <DndContext>
+            <DragItemGrid
+              id={`${originator.id}/items`}
+              height={3}
+              uniqueItems={originUniqueInventory}
+              commodityStacks={originStackInventory}
+            />
+
+            <DragExpandingItemGrid
+              id={`${originator.id}/trade`}
+              uniqueItems={originUniqueTrade}
+              commodityStacks={originStackTrade}
+            />
+          </DndContext>
         </div>
 
         <div className='flex-grow' />
@@ -45,14 +94,16 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
           </h2>
 
           <DragItemGrid
+            id={`${recipient.id}/items`}
             height={3}
-            uniqueItems={recipient.uniqueItems}
-            commodityStacks={recipient.commodityStacks}
+            uniqueItems={recipUniqueInventory}
+            commodityStacks={recipStackInventory}
           />
 
           <DragExpandingItemGrid
-            uniqueItems={recipient.uniqueItems}
-            commodityStacks={recipient.commodityStacks}
+            id={`${recipient.id}/trade`}
+            uniqueItems={recipUniqueTrade}
+            commodityStacks={recipStackTrade}
           />
         </div>
       </div>
@@ -60,15 +111,23 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
   )
 }
 
+// #region Drag Grids
+interface DropProps {
+  id: string
+}
+
 type DragGridProps = Omit<
   ItemGridProps,
   'commodityStack' | 'uniqueItem' | 'blankItem'
->
+> &
+  DropProps
 
 const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (
   <ItemGrid
-    uniqueItem={item => <UniqueItem key={item.id} {...item} />}
-    commodityStack={item => <CommodityStack key={item.id} {...item} />}
+    uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
+    commodityStack={item => (
+      <CommodityStack key={item.id} draggable {...item} />
+    )}
     blankItem={idx => <BlankItem key={idx} />}
     {...props}
   />
@@ -77,13 +136,24 @@ const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (
 type DragExpandingGridProps = Omit<
   ExpandingItemGridProps,
   'commodityStack' | 'uniqueItem' | 'blankItem'
->
+> &
+  DropProps
 
-const DragExpandingItemGrid: FC<DragExpandingGridProps> = ({ ...props }) => (
-  <ExpandingItemGrid
-    uniqueItem={item => <UniqueItem key={item.id} {...item} />}
-    commodityStack={item => <CommodityStack key={item.id} {...item} />}
-    blankItem={idx => <BlankItem key={idx} />}
-    {...props}
-  />
-)
+const DragExpandingItemGrid: FC<DragExpandingGridProps> = ({
+  id,
+  ...props
+}) => {
+  const x = useDroppable({ id })
+
+  return (
+    <ExpandingItemGrid
+      uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
+      commodityStack={item => (
+        <CommodityStack key={item.id} draggable {...item} />
+      )}
+      blankItem={idx => <BlankItem key={idx} />}
+      {...props}
+    />
+  )
+}
+// #endregion
