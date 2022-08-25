@@ -1,11 +1,11 @@
-import { DndContext, useDroppable } from '@dnd-kit/core'
-import { type FC, type Reducer, useReducer } from 'react'
-import { Card } from '~/components/ui/Card'
 import {
-  type CommodityStack as CommodityStackModel,
-  type Inventory,
-  type UniqueItem as UniqueItemModel,
-} from '~/lib/economykit/inventory'
+  DndContext,
+  type DragEndEvent,
+  type DragOverEvent,
+} from '@dnd-kit/core'
+import { type FC, useCallback } from 'react'
+import { Card } from '~/components/ui/Card'
+import { type Inventory } from '~/lib/economykit/inventory'
 import { useItemFilter } from '~/lib/hooks/useItemFilter'
 import { useItemSet } from '~/lib/hooks/useItemSet'
 import { BlankItem } from './BlankItem'
@@ -62,6 +62,30 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       'include'
     )
 
+  const onDragOver = useCallback((ev: DragOverEvent) => {
+    // TODO
+    console.log(ev)
+  }, [])
+
+  const onDragEnd = useCallback(
+    (ev: DragEndEvent) => {
+      const id = ev.active.id
+      const over = ev.over?.id
+
+      if (!over) return
+      if (typeof id !== 'string') return
+      if (typeof over !== 'string') return
+
+      const isOriginator = over.startsWith(originator.id)
+      const isOverTrade = over.endsWith('/trade')
+
+      const dispatch = isOriginator ? dispatchOrigin : dispatchRecipient
+      if (isOverTrade) dispatch({ action: 'add', id })
+      else dispatch({ action: 'remove', id })
+    },
+    [originator.id, dispatchOrigin, dispatchRecipient]
+  )
+
   return (
     <Card>
       <div className='flex'>
@@ -70,7 +94,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
             Your Items
           </h2>
 
-          <DndContext>
+          <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>
             <DragItemGrid
               id={`${originator.id}/items`}
               height={3}
@@ -112,18 +136,12 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
 }
 
 // #region Drag Grids
-interface DropProps {
-  id: string
-}
+type IgnoreFields = 'commodityStack' | 'uniqueItem' | 'blankItem'
 
-type DragGridProps = Omit<
-  ItemGridProps,
-  'commodityStack' | 'uniqueItem' | 'blankItem'
-> &
-  DropProps
-
+type DragGridProps = Omit<ItemGridProps, IgnoreFields>
 const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (
   <ItemGrid
+    droppable
     uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
     commodityStack={item => (
       <CommodityStack key={item.id} draggable {...item} />
@@ -133,27 +151,16 @@ const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (
   />
 )
 
-type DragExpandingGridProps = Omit<
-  ExpandingItemGridProps,
-  'commodityStack' | 'uniqueItem' | 'blankItem'
-> &
-  DropProps
-
-const DragExpandingItemGrid: FC<DragExpandingGridProps> = ({
-  id,
-  ...props
-}) => {
-  const x = useDroppable({ id })
-
-  return (
-    <ExpandingItemGrid
-      uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
-      commodityStack={item => (
-        <CommodityStack key={item.id} draggable {...item} />
-      )}
-      blankItem={idx => <BlankItem key={idx} />}
-      {...props}
-    />
-  )
-}
+type DragExpandingGridProps = Omit<ExpandingItemGridProps, IgnoreFields>
+const DragExpandingItemGrid: FC<DragExpandingGridProps> = ({ ...props }) => (
+  <ExpandingItemGrid
+    droppable
+    uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
+    commodityStack={item => (
+      <CommodityStack key={item.id} draggable {...item} />
+    )}
+    blankItem={idx => <BlankItem key={idx} />}
+    {...props}
+  />
+)
 // #endregion

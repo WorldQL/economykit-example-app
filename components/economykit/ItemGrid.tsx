@@ -1,3 +1,4 @@
+import { useDroppable } from '@dnd-kit/core'
 import { type FC, type ReactNode } from 'react'
 import { Button } from '~/components/ui/Button'
 import {
@@ -7,6 +8,9 @@ import {
 import { useItemGrid } from '~/lib/hooks/useItemGrid'
 
 interface Props {
+  id: string
+  droppable?: boolean
+
   width?: number
   height?: number
 
@@ -19,6 +23,8 @@ interface Props {
 }
 
 export const ItemGrid: FC<Props> = ({
+  id,
+  droppable = false,
   width = 5,
   height = width,
   uniqueItems,
@@ -27,12 +33,13 @@ export const ItemGrid: FC<Props> = ({
   commodityStack,
   blankItem,
 }) => {
+  const { setNodeRef } = useDroppable({ id, disabled: !droppable })
   const grid = useItemGrid(uniqueItems, commodityStacks, width, height)
-  console.log(grid)
 
   return (
     <div className='flex flex-col gap-3'>
       <div
+        ref={setNodeRef}
         className='grid gap-2'
         style={{
           gridTemplateRows: `repeat(${height}, minmax(0, 1fr))`,

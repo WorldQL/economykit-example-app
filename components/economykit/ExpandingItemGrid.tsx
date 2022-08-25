@@ -1,3 +1,4 @@
+import { useDroppable } from '@dnd-kit/core'
 import { type FC, type ReactNode } from 'react'
 import {
   type CommodityStack,
@@ -6,6 +7,9 @@ import {
 import { useExpandingItemGrid } from '~/lib/hooks/useExpandingItemGrid'
 
 interface Props {
+  id: string
+  droppable?: boolean
+
   width?: number
 
   uniqueItems: readonly UniqueItem[]
@@ -17,6 +21,8 @@ interface Props {
 }
 
 export const ExpandingItemGrid: FC<Props> = ({
+  id,
+  droppable = false,
   width = 5,
   uniqueItems,
   commodityStacks,
@@ -24,10 +30,12 @@ export const ExpandingItemGrid: FC<Props> = ({
   commodityStack,
   blankItem,
 }) => {
+  const { setNodeRef } = useDroppable({ id, disabled: !droppable })
   const items = useExpandingItemGrid(uniqueItems, commodityStacks, width)
 
   return (
     <div
+      ref={setNodeRef}
       className='grid gap-2'
       style={{
         gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
