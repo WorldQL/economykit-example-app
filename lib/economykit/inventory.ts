@@ -67,14 +67,16 @@ export interface Inventory {
   commodityStacks: readonly CommodityStack[]
 }
 
-export const inventory: (auth: AuthResponse) => Promise<Inventory> = async ({
-  id,
-  token,
-}) => {
+export const inventory: (
+  auth: AuthResponse,
+  id?: string
+) => Promise<Inventory> = async ({ id: inventoryID, token }, id) => {
+  const player = id ?? inventoryID
   const { data } = await axios.get<InventoryResponse>(
     '/inventories/api/v1/player-inventory/',
     {
       headers: { Authorization: `Bearer ${token}` },
+      params: { player },
     }
   )
 
@@ -109,5 +111,5 @@ export const inventory: (auth: AuthResponse) => Promise<Inventory> = async ({
     }
   }
 
-  return { id, uniqueItems, commodityStacks }
+  return { id: player, uniqueItems, commodityStacks }
 }
