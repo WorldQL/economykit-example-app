@@ -5,9 +5,14 @@ import {
 } from '@dnd-kit/core'
 import { type FC, useCallback } from 'react'
 import { Card } from '~/components/ui/Card'
-import { type Inventory } from '~/lib/economykit/inventory'
+import {
+  type CommodityStack as CommodityStackModel,
+  type Inventory,
+  type UniqueItem as UniqueItemModel,
+} from '~/lib/economykit/inventory'
 import { useItemFilter } from '~/lib/hooks/useItemFilter'
 import { useItemSet } from '~/lib/hooks/useItemSet'
+import { Button } from '../ui/Button'
 import { BlankItem } from './BlankItem'
 import { CommodityStack } from './CommodityStack'
 import {
@@ -85,56 +90,96 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
     [originator.id, dispatchOrigin, dispatchRecipient]
   )
 
+  const confirm = useCallback(() => {
+    // TODO
+  }, [])
+
   return (
     <Card>
       <div className='flex'>
-        <div className='flex flex-col gap-6'>
-          <h2 className='-mb-3 text-center text-lg font-semibold'>
-            Your Items
-          </h2>
+        <TradeInterface
+          title='Your Items'
+          id={originator.id}
+          uniqueInventory={originUniqueInventory}
+          stackInventory={originStackInventory}
+          uniqueTrade={originUniqueTrade}
+          stackTrade={originStackTrade}
+          onDragOver={onDragOver}
+          onDragEnd={onDragEnd}
+        />
 
-          <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>
-            <DragItemGrid
-              id={`${originator.id}/items`}
-              height={3}
-              uniqueItems={originUniqueInventory}
-              commodityStacks={originStackInventory}
-            />
+        <div className='flex flex-grow flex-col items-center justify-center px-4'>
+          <div className='flex flex-grow items-center justify-center'>
+            <h2>Drag and Drop items into the Trade Box Below</h2>
+          </div>
 
-            <DragExpandingItemGrid
-              id={`${originator.id}/trade`}
-              uniqueItems={originUniqueTrade}
-              commodityStacks={originStackTrade}
-            />
-          </DndContext>
+          <Button onClick={confirm}>Send Trade Request</Button>
         </div>
 
-        <div className='flex-grow' />
-
-        <div className='flex flex-col gap-6'>
-          <h2 className='-mb-3 text-center text-lg font-semibold'>
-            Their Items
-          </h2>
-
-          <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>
-            <DragItemGrid
-              id={`${recipient.id}/items`}
-              height={3}
-              uniqueItems={recipUniqueInventory}
-              commodityStacks={recipStackInventory}
-            />
-
-            <DragExpandingItemGrid
-              id={`${recipient.id}/trade`}
-              uniqueItems={recipUniqueTrade}
-              commodityStacks={recipStackTrade}
-            />
-          </DndContext>
-        </div>
+        <TradeInterface
+          title='Their Items'
+          id={recipient.id}
+          uniqueInventory={recipUniqueInventory}
+          stackInventory={recipStackInventory}
+          uniqueTrade={recipUniqueTrade}
+          stackTrade={recipStackTrade}
+          onDragOver={onDragOver}
+          onDragEnd={onDragEnd}
+        />
       </div>
     </Card>
   )
 }
+
+// #region Trade Interface
+interface TradeInterfaceProps {
+  title: string
+  id: string
+
+  uniqueInventory: readonly UniqueItemModel[]
+  stackInventory: readonly CommodityStackModel[]
+
+  uniqueTrade: readonly UniqueItemModel[]
+  stackTrade: readonly CommodityStackModel[]
+
+  onDragOver: (ev: DragOverEvent) => void
+  onDragEnd: (ev: DragEndEvent) => void
+}
+
+const TradeInterface: FC<TradeInterfaceProps> = ({
+  title,
+  id,
+  uniqueInventory,
+  stackInventory,
+  uniqueTrade,
+  stackTrade,
+  onDragOver,
+  onDragEnd,
+}) => (
+  <div className='flex flex-col'>
+    <h2 className='mb-3 text-center text-lg font-semibold'>{title}</h2>
+
+    <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>
+      <DragItemGrid
+        id={`${id}/items`}
+        height={3}
+        uniqueItems={uniqueInventory}
+        commodityStacks={stackInventory}
+      />
+
+      <h3 className='my-3 text-center text-sm font-semibold text-black/60'>
+        Items up for trade
+      </h3>
+
+      <DragExpandingItemGrid
+        id={`${id}/trade`}
+        uniqueItems={uniqueTrade}
+        commodityStacks={stackTrade}
+      />
+    </DndContext>
+  </div>
+)
+// #endregion
 
 // #region Drag Grids
 type IgnoreFields = 'commodityStack' | 'uniqueItem' | 'blankItem'
