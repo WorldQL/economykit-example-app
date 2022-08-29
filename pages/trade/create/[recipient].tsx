@@ -1,22 +1,48 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
-import useSWR from 'swr'
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 import { Trade } from '~/components/economykit/Trade'
 import { Loading } from '~/components/views/Loading'
 import { Page } from '~/components/views/Page'
-import { inventory as fetchInventory } from '~/lib/economykit/inventory'
 import { useEnsureAuth } from '~/lib/hooks/useAuth'
+import { useInventory } from '~/lib/hooks/useInventory'
 
 const TradeCreate: NextPage = () => {
   const auth = useEnsureAuth()
 
-  const { data: originator } = useSWR(
-    auth && ['/inventory', auth],
-    async (_, auth) => fetchInventory(auth)
+  const { query, isReady } = useRouter()
+  const recipientID = useMemo<string | undefined>(() => {
+    if (!isReady) return undefined
+    const value = query.recipient
+
+    if (Array.isArray(value)) return value[0]
+    return value
+  }, [isReady, query])
+
+  const {
+    inventory: originator,
+    loading: originLoading,
+    error: originError,
+  } = useInventory(auth)
+
+  const {
+    inventory: recipient,
+    loading: recipLoading,
+    error: recipError,
+  } = useInventory(auth, recipientID)
+
+  const loading = useMemo<boolean>(
+    () => originLoading || recipLoading,
+    [originLoading, recipLoading]
   )
 
-  if (!auth || !originator) return <Loading />
+  // TODO: Nicer errors
+  if (originError || recipError) {
+    return <div>Error</div>
+  }
 
+  if (!auth || loading || !originator || !recipient) return <Loading />
   const { displayName } = auth
 
   return (
@@ -26,11 +52,7 @@ const TradeCreate: NextPage = () => {
       </Head>
 
       <Page username={displayName}>
-        <Trade
-          originator={originator}
-          // TODO: Retrieve recipient's items
-          recipient={{ id: 'recipient', uniqueItems: [], commodityStacks: [] }}
-        />
+        <Trade originator={originator} recipient={recipient} />
       </Page>
     </>
   )

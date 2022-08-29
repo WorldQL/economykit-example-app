@@ -6,7 +6,6 @@ type ItemsReducer = Reducer<Set<string>, ActionData>
 
 export const useItemFilter = () => {
   const reducer = useReducer<ItemsReducer>((previousState, { action, id }) => {
-    console.log({ action, id })
     switch (action) {
       case 'add': {
         previousState.add(id)

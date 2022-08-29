@@ -64,7 +64,6 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
 
   const onDragOver = useCallback((ev: DragOverEvent) => {
     // TODO
-    console.log(ev)
   }, [])
 
   const onDragEnd = useCallback(
@@ -117,18 +116,20 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
             Their Items
           </h2>
 
-          <DragItemGrid
-            id={`${recipient.id}/items`}
-            height={3}
-            uniqueItems={recipUniqueInventory}
-            commodityStacks={recipStackInventory}
-          />
+          <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>
+            <DragItemGrid
+              id={`${recipient.id}/items`}
+              height={3}
+              uniqueItems={recipUniqueInventory}
+              commodityStacks={recipStackInventory}
+            />
 
-          <DragExpandingItemGrid
-            id={`${recipient.id}/trade`}
-            uniqueItems={recipUniqueTrade}
-            commodityStacks={recipStackTrade}
-          />
+            <DragExpandingItemGrid
+              id={`${recipient.id}/trade`}
+              uniqueItems={recipUniqueTrade}
+              commodityStacks={recipStackTrade}
+            />
+          </DndContext>
         </div>
       </div>
     </Card>
