@@ -51,15 +51,8 @@ export const useAuth: () => UseAuth = () => {
     const now = Date.now()
     const expires = local !== undefined ? new Date(local.expires) : undefined
 
-    if (expires && now < expires.getTime()) {
-      setLoaded(true)
-      setData(local)
-
-      return
-    }
-
-    // TODO
-    void 0
+    if (expires && now < expires.getTime()) setData(local)
+    setLoaded(true)
   }, [loaded, setLoaded, setData])
 
   const authenticate = useCallback(
