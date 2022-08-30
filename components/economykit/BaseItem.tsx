@@ -43,7 +43,7 @@ export const BaseItem: FC<PropsWithChildren<Props & DragProps>> = ({
       className={clsx(
         'relative aspect-square rounded',
         'outline outline-offset-2',
-        'm-1 w-24',
+        'm-1 max-w-[6rem]',
         'flex items-center justify-center',
         'group cursor-pointer',
         className
@@ -55,6 +55,7 @@ export const BaseItem: FC<PropsWithChildren<Props & DragProps>> = ({
         className='select-none rounded-lg p-1 transition-[padding] group-hover:p-[1px]'
         src={img}
         alt={alt}
+        width={100}
       />
       {children}
     </div>

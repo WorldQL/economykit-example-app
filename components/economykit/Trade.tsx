@@ -96,7 +96,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
 
   return (
     <Card>
-      <div className='flex'>
+      <div className='flex flex-col gap-8 lg:flex-row lg:gap-4'>
         <TradeInterface
           title='Your Items'
           id={originator.id}
@@ -108,12 +108,16 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
           onDragEnd={onDragEnd}
         />
 
-        <div className='flex flex-grow flex-col items-center justify-center px-4'>
+        <div className='flex flex-grow flex-col items-center justify-center'>
           <div className='flex flex-grow items-center justify-center'>
-            <h2>Drag and Drop items into the Trade Box Below</h2>
+            <h2 className='text-center'>
+              Drag and Drop items into the Trade Box Below
+            </h2>
           </div>
 
-          <Button onClick={confirm}>Send Trade Request</Button>
+          <Button className='mt-4 lg:mt-0' onClick={confirm}>
+            Send Trade Request
+          </Button>
         </div>
 
         <TradeInterface
@@ -156,7 +160,7 @@ const TradeInterface: FC<TradeInterfaceProps> = ({
   onDragOver,
   onDragEnd,
 }) => (
-  <div className='flex flex-col'>
+  <div className='flex flex-col items-center'>
     <h2 className='mb-3 text-center text-lg font-semibold'>{title}</h2>
 
     <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>

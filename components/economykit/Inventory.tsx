@@ -15,7 +15,7 @@ export const Inventory: FC<InventoryModel> = ({
     <div className='flex flex-col gap-4'>
       <h2 className='text-xl font-bold'>Inventory</h2>
 
-      <div className='flex w-full gap-6'>
+      <div className='flex w-full flex-col items-center gap-6 lg:flex-row lg:items-stretch'>
         <ItemGrid
           id={id}
           uniqueItems={uniqueItems}
@@ -25,7 +25,7 @@ export const Inventory: FC<InventoryModel> = ({
           blankItem={idx => <BlankItem key={idx} />}
         />
 
-        <div className='m-1 flex-grow rounded p-2 outline outline-offset-2 outline-gray-400'>
+        <div className='m-1 w-full flex-grow rounded p-2 outline outline-offset-2 outline-gray-400 lg:w-auto'>
           content
         </div>
       </div>
