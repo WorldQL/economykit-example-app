@@ -1,5 +1,5 @@
 import Axios, { type AxiosError } from 'axios'
-import { baseURL, ECONOMYKIT_APP_TOKEN } from './env'
+import { baseURL, ECONOMYKIT_APP_TOKEN } from '~/lib/economykit/env'
 
 if (!ECONOMYKIT_APP_TOKEN) {
   throw new Error('ECONOMYKIT_APP_TOKEN not specified')

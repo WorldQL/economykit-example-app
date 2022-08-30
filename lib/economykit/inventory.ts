@@ -1,6 +1,6 @@
 import Axios from 'axios'
+import { baseURL } from '~/lib/economykit/env'
 import { type AuthResponse } from '~/pages/api/login'
-import { baseURL } from './env'
 
 const axios = Axios.create({
   baseURL,
