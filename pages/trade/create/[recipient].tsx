@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { Trade } from '~/components/economykit/Trade'
+import { Error } from '~/components/views/Error'
 import { Loading } from '~/components/views/Loading'
 import { Page } from '~/components/views/Page'
 import { useEnsureAuth } from '~/lib/hooks/useAuth'
@@ -37,9 +38,26 @@ const TradeCreate: NextPage = () => {
     [originLoading, recipLoading]
   )
 
-  // TODO: Nicer errors
-  if (originError || recipError) {
-    return <div>Error</div>
+  if (originError) {
+    return (
+      <Error>
+        <p>Failed to load your inventory!</p>
+        {originError.response ? (
+          <pre>Error {originError.response.status}</pre>
+        ) : null}
+      </Error>
+    )
+  }
+
+  if (recipError) {
+    return (
+      <Error>
+        <p>Failed to load target&apos;s inventory!</p>
+        {recipError.response ? (
+          <pre>Error {recipError.response.status}</pre>
+        ) : null}
+      </Error>
+    )
   }
 
   if (!auth || loading || !originator || !recipient) return <Loading />
