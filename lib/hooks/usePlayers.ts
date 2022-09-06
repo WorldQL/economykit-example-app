@@ -11,17 +11,22 @@ interface UsePlayers {
 }
 
 export const usePlayers: (
-  auth: AuthResponse | undefined
-) => UsePlayers = auth => {
-  const { data: players, error } = useSWR<Player[], AxiosError>(
+  auth: AuthResponse | undefined,
+  filterSelf?: boolean
+) => UsePlayers = (auth, filterSelf = true) => {
+  const { data: allPlayers, error } = useSWR<Player[], AxiosError>(
     auth && [`/players/`, auth],
     async (_, auth) => fetchPlayers(auth)
   )
 
   const loading = useMemo<boolean>(
-    () => players === undefined && error === undefined,
-    [players, error]
+    () => allPlayers === undefined && error === undefined,
+    [allPlayers, error]
   )
+
+  const players = filterSelf
+    ? allPlayers?.filter(player => player.id !== auth?.id)
+    : allPlayers
 
   return { players, loading, error }
 }
