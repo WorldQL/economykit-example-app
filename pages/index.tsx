@@ -1,5 +1,6 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { Button } from '~/components/ui/Button'
@@ -10,7 +11,6 @@ import { Page } from '~/components/views/Page'
 import { useEnsureAuth } from '~/lib/hooks/useAuth'
 import { useInventory } from '~/lib/hooks/useInventory'
 import { usePlayers } from '~/lib/hooks/usePlayers'
-import { AuthResponse } from './api/login'
 
 const Root: NextPage = () => {
   const auth = useEnsureAuth()
@@ -22,7 +22,7 @@ const Root: NextPage = () => {
     void push('/inventory')
   }, [push])
 
-  const error = inventoryError || playersError
+  const error = inventoryError ?? playersError
   if (error) {
     return (
       <Error>
@@ -55,8 +55,18 @@ const Root: NextPage = () => {
 
           <div>
             <h1 className='text-lg font-semibold'>Users</h1>
+            <p className='mb-2 text-sm opacity-70'>
+              Click a user to send a trade request!
+            </p>
+
             <ul>
-              {players.map(player => <li key={player.id}>{player.name}</li>)}
+              {players.map(player => (
+                <li key={player.id}>
+                  <Link href={`/trade/create/${player.id}`}>
+                    <a className='underline'>{player.name}</a>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </Card>
