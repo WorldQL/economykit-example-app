@@ -1,5 +1,5 @@
 import { baseURL } from '~/lib/economykit/env'
-import { axios, type PagedResponse } from '~/lib/economykit/http'
+import { paginated } from '~/lib/economykit/http'
 import { type AuthResponse } from '~/pages/api/login'
 
 interface UniqueInventoryItem {
@@ -13,8 +13,8 @@ interface UniqueInventoryItem {
 }
 
 interface CommodityInventoryItem {
-  type: 'commodity'
-  commodity: {
+  type: 'commodity_stack'
+  commodity_stack: {
     quantity: number
     commodity: {
       id: string
@@ -26,7 +26,6 @@ interface CommodityInventoryItem {
 }
 
 type InventoryItem = UniqueInventoryItem | CommodityInventoryItem
-type InventoryResponse = PagedResponse<InventoryItem>
 
 export interface UniqueItem {
   type: 'uniqueItem'
@@ -58,41 +57,43 @@ export interface Inventory {
 export const inventory: (
   auth: AuthResponse,
   id?: string
-) => Promise<Inventory> = async ({ id: inventoryID, token }, id) => {
-  const player = id ?? inventoryID
-  const { data } = await axios.get<InventoryResponse>(
+) => Promise<Inventory> = async (auth, id) => {
+  const player = id ?? auth.id
+
+  const uniqueItems: UniqueItem[] = []
+  const commodityStacks: CommodityStack[] = []
+
+  const results = await paginated<InventoryItem>(
     '/inventories/api/v1/player-inventory/',
+    auth,
     {
-      headers: { Authorization: `Bearer ${token}` },
       params: { player },
     }
   )
 
-  // TODO: Pagination
-  const uniqueItems: UniqueItem[] = []
-  const commodityStacks: CommodityStack[] = []
-
-  for (const item of data.results) {
+  for (const item of results) {
     if (item.type === 'unique_item') {
+      const unique = item.unique_item
       const uniqueItem: UniqueItem = {
         type: 'uniqueItem',
 
-        id: item.unique_item.id,
-        name: item.unique_item.display_name,
-        image: new URL(item.unique_item.image, baseURL).toString(),
-        metadata: item.unique_item.metadata,
+        id: unique.id,
+        name: unique.display_name,
+        image: new URL(unique.image, baseURL).toString(),
+        metadata: unique.metadata,
       }
 
       uniqueItems.push(uniqueItem)
-    } else if (item.type === 'commodity') {
+    } else if (item.type === 'commodity_stack') {
+      const stack = item.commodity_stack
       const commodityStack: CommodityStack = {
         type: 'commodityStack',
 
-        id: item.commodity.commodity.id,
-        name: item.commodity.commodity.display_name,
-        image: new URL(item.commodity.commodity.image, baseURL).toString(),
-        quantity: item.commodity.quantity,
-        metadata: item.commodity.commodity.metadata,
+        id: stack.commodity.id,
+        name: stack.commodity.display_name,
+        image: new URL(stack.commodity.image, baseURL).toString(),
+        quantity: stack.quantity,
+        metadata: stack.commodity.metadata,
       }
 
       commodityStacks.push(commodityStack)

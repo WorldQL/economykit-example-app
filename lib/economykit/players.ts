@@ -1,5 +1,5 @@
-import { axios, type PagedResponse } from '~/lib/economykit/http'
-import { AuthResponse } from '~/pages/api/login'
+import { paginated } from '~/lib/economykit/http'
+import { type AuthResponse } from '~/pages/api/login'
 
 interface PlayerEntry {
   id: string
@@ -11,26 +11,18 @@ export interface Player {
   name: string
 }
 
-type ListPlayersResponse = PagedResponse<PlayerEntry>
-
 export const players: (
-  auth: AuthResponse,
-  id?: string
-) => Promise<Player[]> = async ({ token }, id) => {
-  const { data } = await axios.get<ListPlayersResponse>(
+  auth: AuthResponse
+) => Promise<Player[]> = async auth => {
+  const results = await paginated<PlayerEntry>(
     '/inventories/api/v1/player/',
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
+    auth
   )
 
-  const convert = (entry: PlayerEntry) => ({
+  const players: Player[] = results.map(entry => ({
     id: entry.id,
     name: entry.display_name,
-  })
-
-  const players: Player[] = data.results.map(convert)
-  // TODO: Fill more results from extra pages?
+  }))
 
   return players
 }
