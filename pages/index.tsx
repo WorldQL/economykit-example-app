@@ -9,16 +9,20 @@ import { Loading } from '~/components/views/Loading'
 import { Page } from '~/components/views/Page'
 import { useEnsureAuth } from '~/lib/hooks/useAuth'
 import { useInventory } from '~/lib/hooks/useInventory'
+import { usePlayers } from '~/lib/hooks/usePlayers'
+import { AuthResponse } from './api/login'
 
 const Root: NextPage = () => {
   const auth = useEnsureAuth()
-  const { inventory, error } = useInventory(auth)
   const { push } = useRouter()
+  const { inventory, error: inventoryError } = useInventory(auth)
+  const { players, error: playersError } = usePlayers(auth)
 
   const viewInventory = useCallback(() => {
     void push('/inventory')
   }, [push])
 
+  const error = inventoryError || playersError
   if (error) {
     return (
       <Error>
@@ -28,7 +32,7 @@ const Root: NextPage = () => {
     )
   }
 
-  if (!auth || !inventory) return <Loading />
+  if (!auth || !inventory || !players) return <Loading />
   const { displayName } = auth
 
   return (
@@ -51,7 +55,9 @@ const Root: NextPage = () => {
 
           <div>
             <h1 className='text-lg font-semibold'>Users</h1>
-            <p>TODO: List users to trade with</p>
+            <ul>
+              {players.map(player => <li key={player.id}>{player.name}</li>)}
+            </ul>
           </div>
         </Card>
       </Page>
