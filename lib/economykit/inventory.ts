@@ -1,18 +1,6 @@
-import Axios from 'axios'
 import { baseURL } from '~/lib/economykit/env'
+import { axios, type PagedResponse } from '~/lib/economykit/http'
 import { type AuthResponse } from '~/pages/api/login'
-
-const axios = Axios.create({
-  baseURL,
-})
-
-/* eslint-disable @typescript-eslint/ban-types */
-interface PagedResponse<T> {
-  next: string | null
-  prev: string | null
-  results: T[]
-}
-/* eslint-enable @typescript-eslint/ban-types */
 
 interface UniqueInventoryItem {
   type: 'unique_item'
