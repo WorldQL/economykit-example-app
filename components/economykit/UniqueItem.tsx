@@ -1,6 +1,6 @@
 import fnv1a from '@sindresorhus/fnv1a'
 import { type FC, useMemo } from 'react'
-import { type UniqueItem as UniqueItemModel } from '~/lib/economykit/inventory'
+import { type UniqueItem as UniqueItemModel } from '@worldql/economykit-client'
 import { BaseItem, type DragProps } from './BaseItem'
 
 export const UniqueItem: FC<UniqueItemModel & DragProps> = ({

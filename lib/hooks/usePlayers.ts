@@ -1,22 +1,24 @@
 import { type AxiosError } from 'axios'
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import { players as fetchPlayers, type Player } from '~/lib/economykit/players'
-import { type AuthResponse } from '~/pages/api/login'
+import {
+  type Player,
+  type PlayerScopedClient,
+} from '@worldql/economykit-client'
 
 interface UsePlayers {
-  players: Player[] | undefined
+  players: readonly Player[] | undefined
   loading: boolean
   error: AxiosError | undefined
 }
 
 export const usePlayers: (
-  auth: AuthResponse | undefined,
+  client: PlayerScopedClient | undefined,
   filterSelf?: boolean
-) => UsePlayers = (auth, filterSelf = true) => {
-  const { data: allPlayers, error } = useSWR<Player[], AxiosError>(
-    auth && [`/players/`, auth],
-    async (_, auth) => fetchPlayers(auth)
+) => UsePlayers = (client, filterSelf = true) => {
+  const { data: allPlayers, error } = useSWR<readonly Player[], AxiosError>(
+    client && [`/players`, client],
+    async (_, client: PlayerScopedClient) => client.players()
   )
 
   const loading = useMemo<boolean>(
@@ -25,7 +27,7 @@ export const usePlayers: (
   )
 
   const players = filterSelf
-    ? allPlayers?.filter(player => player.id !== auth?.id)
+    ? allPlayers?.filter(player => player.id !== client?.id)
     : allPlayers
 
   return { players, loading, error }

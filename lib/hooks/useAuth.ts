@@ -2,14 +2,16 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { createGlobalState } from 'react-hooks-global-state'
-import { type AuthResponse } from '~/pages/api/login'
+import { type PlayerAuthAPI } from '~/pages/api/login'
+import { createPlayerClient } from '~/lib/economykit/client'
+import { type PlayerScopedClient } from '@worldql/economykit-client'
 
 const STORAGE_KEY = 'auth'
-type AuthData = AuthResponse | undefined
+type AuthData = PlayerAuthAPI | undefined
 
 const getDataStorage: () => AuthData = () => {
   const data = localStorage.getItem(STORAGE_KEY) ?? undefined
-  return data ? (JSON.parse(data) as AuthResponse) : undefined
+  return data ? (JSON.parse(data) as PlayerAuthAPI) : undefined
 }
 
 const setDataStorage: (data: AuthData) => void = data => {
@@ -19,7 +21,7 @@ const setDataStorage: (data: AuthData) => void = data => {
 
 interface State {
   loaded: boolean
-  data: AuthResponse | undefined
+  data: PlayerScopedClient | undefined
 }
 
 const { useGlobalState } = createGlobalState<State>({
@@ -38,7 +40,9 @@ export const useAuth: () => UseAuth = () => {
 
   const setData = useCallback(
     (data: AuthData) => {
-      setDataMemory(data)
+      const client = data ? createPlayerClient(data) : undefined
+
+      setDataMemory(client)
       setDataStorage(data)
     },
     [setDataMemory]
@@ -58,9 +62,10 @@ export const useAuth: () => UseAuth = () => {
   const authenticate = useCallback(
     async (name: string) => {
       try {
-        const { data } = await axios.post<AuthResponse>('/api/login', { name })
+        const { data } = await axios.post<PlayerAuthAPI>('/api/login', { name })
         setData(data)
-      } catch {
+      } catch (error) {
+        console.error(error)
         // TODO
       }
     },

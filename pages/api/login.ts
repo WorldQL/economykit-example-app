@@ -2,7 +2,9 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import ms from 'ms'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import nc from 'next-connect'
-import { playerID, provisionToken } from '~/lib/economykit/auth'
+import { appClient } from '~/lib/economykit/server'
+import { ExternalIdentifier, type PlayerAuth } from '@worldql/economykit-client'
+import { DeepMap } from '~/lib/types'
 
 const stringParameter = (request: NextApiRequest, key: string) => {
   const value = request.body[key] as unknown
@@ -13,15 +15,9 @@ const stringParameter = (request: NextApiRequest, key: string) => {
 
 // Hardcoded expiry time
 const expires = ms('72h')
+export type PlayerAuthAPI = DeepMap<PlayerAuth, Date, Date | string>
 
-export interface AuthResponse {
-  id: string
-  displayName: string
-  token: string
-  expires: Date | string
-}
-
-const handler = nc<NextApiRequest, NextApiResponse<AuthResponse | string>>()
+const handler = nc<NextApiRequest, NextApiResponse<PlayerAuthAPI | string>>()
 handler.post(async (request, resp) => {
   const name = stringParameter(request, 'name')
   if (!name) {
@@ -31,15 +27,14 @@ handler.post(async (request, resp) => {
     return
   }
 
-  const idResp = await playerID(name)
-  const tokenResp = await provisionToken(expires, idResp.player_id)
+  const playerAuth = await appClient.authenticate(
+    name,
+    ExternalIdentifier.CUSTOM,
+    name,
+    expires
+  )
 
-  resp.send({
-    id: idResp.player_id,
-    displayName: idResp.display_name,
-    token: tokenResp.key,
-    expires: tokenResp.expires,
-  })
+  resp.send(playerAuth)
 })
 
 export default handler

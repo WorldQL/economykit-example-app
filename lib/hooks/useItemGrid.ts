@@ -3,7 +3,7 @@ import { type Reducer, useCallback, useMemo, useReducer } from 'react'
 import {
   type CommodityStack,
   type UniqueItem,
-} from '~/lib/economykit/inventory'
+} from '@worldql/economykit-client'
 
 type UniqueItems = readonly UniqueItem[]
 type CommodityStacks = readonly CommodityStack[]

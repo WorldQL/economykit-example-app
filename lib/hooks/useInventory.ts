@@ -2,10 +2,9 @@ import { type AxiosError } from 'axios'
 import { useMemo } from 'react'
 import useSWR from 'swr'
 import {
-  inventory as fetchInventory,
   type Inventory,
-} from '~/lib/economykit/inventory'
-import { type AuthResponse } from '~/pages/api/login'
+  type PlayerScopedClient,
+} from '@worldql/economykit-client'
 
 interface UseInventory {
   inventory: Inventory | undefined
@@ -14,13 +13,13 @@ interface UseInventory {
 }
 
 export const useInventory: (
-  auth: AuthResponse | undefined,
+  client: PlayerScopedClient | undefined,
   id?: string
-) => UseInventory = (auth, player) => {
-  const id = player ?? auth?.id
+) => UseInventory = (client, player) => {
+  const id = player ?? client?.id
   const { data: inventory, error } = useSWR<Inventory, AxiosError>(
-    auth && id && [`/inventory/${id}`, auth, id],
-    async (_, auth, id) => fetchInventory(auth, id)
+    client && id && [`/inventory/${id}`, client, id],
+    async (_, client: PlayerScopedClient, id: string) => client.inventory(id)
   )
 
   const loading = useMemo<boolean>(

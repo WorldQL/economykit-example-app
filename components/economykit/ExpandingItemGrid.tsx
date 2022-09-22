@@ -3,7 +3,7 @@ import { type FC, type ReactNode } from 'react'
 import {
   type CommodityStack,
   type UniqueItem,
-} from '~/lib/economykit/inventory'
+} from '@worldql/economykit-client'
 import { useExpandingItemGrid } from '~/lib/hooks/useExpandingItemGrid'
 
 interface Props {

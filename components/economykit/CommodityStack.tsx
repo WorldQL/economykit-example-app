@@ -1,5 +1,5 @@
 import { type FC, useMemo } from 'react'
-import { type CommodityStack as CommodityStackModel } from '~/lib/economykit/inventory'
+import { type CommodityStack as CommodityStackModel } from '@worldql/economykit-client'
 import { BaseItem, type DragProps } from './BaseItem'
 
 export const CommodityStack: FC<CommodityStackModel & DragProps> = ({

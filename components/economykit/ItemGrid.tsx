@@ -4,7 +4,7 @@ import { Button } from '~/components/ui/Button'
 import {
   type CommodityStack,
   type UniqueItem,
-} from '~/lib/economykit/inventory'
+} from '@worldql/economykit-client'
 import { useItemGrid } from '~/lib/hooks/useItemGrid'
 
 interface Props {

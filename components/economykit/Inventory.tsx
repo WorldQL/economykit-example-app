@@ -4,7 +4,7 @@ import { CommodityStack } from '~/components/economykit/CommodityStack'
 import { ItemGrid } from '~/components/economykit/ItemGrid'
 import { UniqueItem } from '~/components/economykit/UniqueItem'
 import { Card } from '~/components/ui/Card'
-import { type Inventory as InventoryModel } from '~/lib/economykit/inventory'
+import { type Inventory as InventoryModel } from '@worldql/economykit-client'
 
 export const Inventory: FC<InventoryModel> = ({
   id,
