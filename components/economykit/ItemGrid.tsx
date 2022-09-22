@@ -1,10 +1,10 @@
 import { useDroppable } from '@dnd-kit/core'
-import { type FC, type ReactNode } from 'react'
-import { Button } from '~/components/ui/Button'
 import {
   type CommodityStack,
   type UniqueItem,
 } from '@worldql/economykit-client'
+import { type FC, type ReactNode } from 'react'
+import { Button } from '~/components/ui/Button'
 import { useItemGrid } from '~/lib/hooks/useItemGrid'
 
 interface Props {
@@ -17,9 +17,9 @@ interface Props {
   uniqueItems: readonly UniqueItem[]
   commodityStacks: readonly CommodityStack[]
 
-  uniqueItem: (item: UniqueItem) => ReactNode
-  commodityStack: (stack: CommodityStack) => ReactNode
-  blankItem: (idx: number) => ReactNode
+  uniqueItem(item: UniqueItem): ReactNode
+  commodityStack(stack: CommodityStack): ReactNode
+  blankItem(idx: number): ReactNode
 }
 
 export const ItemGrid: FC<Props> = ({
@@ -46,12 +46,12 @@ export const ItemGrid: FC<Props> = ({
           gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
         }}
       >
-        {grid.items.map((item, i) =>
+        {grid.items.map((item, idx) =>
           item === undefined
-            ? blankItem(i)
+            ? blankItem(idx)
             : item.type === 'uniqueItem'
             ? uniqueItem(item)
-            : commodityStack(item)
+            : commodityStack(item),
         )}
       </div>
 

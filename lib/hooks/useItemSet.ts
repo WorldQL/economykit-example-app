@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
 import {
   type CommodityStack,
   type UniqueItem,
 } from '@worldql/economykit-client'
+import { useMemo } from 'react'
 
 type UniqueItems = readonly UniqueItem[]
 type CommodityStacks = readonly CommodityStack[]
@@ -16,7 +16,7 @@ export const useItemSet: (
   uniqueItems: UniqueItems,
   commodityStacks: CommodityStacks,
   set: Set<string>,
-  filter: 'include' | 'exclude'
+  filter: 'exclude' | 'include',
 ) => UseItemSet = (uniqueItemsInput, commodityStacksInput, set, filter) => {
   const uniqueItems = useMemo<UniqueItems>(
     () =>
@@ -24,7 +24,7 @@ export const useItemSet: (
         const inSet = set.has(id)
         return filter === 'include' ? inSet : !inSet
       }),
-    [uniqueItemsInput, set, filter]
+    [uniqueItemsInput, set, filter],
   )
 
   const commodityStacks = useMemo<CommodityStacks>(
@@ -33,7 +33,7 @@ export const useItemSet: (
         const inSet = set.has(id)
         return filter === 'include' ? inSet : !inSet
       }),
-    [commodityStacksInput, set, filter]
+    [commodityStacksInput, set, filter],
   )
 
   return { uniqueItems, commodityStacks }

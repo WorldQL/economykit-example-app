@@ -3,6 +3,11 @@ import {
   type DragEndEvent,
   type DragOverEvent,
 } from '@dnd-kit/core'
+import {
+  type CommodityStack as CommodityStackModel,
+  type Inventory,
+  type UniqueItem as UniqueItemModel,
+} from '@worldql/economykit-client'
 import { type FC, useCallback } from 'react'
 import { BlankItem } from '~/components/economykit/BlankItem'
 import { CommodityStack } from '~/components/economykit/CommodityStack'
@@ -14,11 +19,6 @@ import { ItemGrid, type ItemGridProps } from '~/components/economykit/ItemGrid'
 import { UniqueItem } from '~/components/economykit/UniqueItem'
 import { Button } from '~/components/ui/Button'
 import { Card } from '~/components/ui/Card'
-import {
-  type CommodityStack as CommodityStackModel,
-  type Inventory,
-  type UniqueItem as UniqueItemModel,
-} from '~/lib/economykit/inventory'
 import { useItemFilter } from '~/lib/hooks/useItemFilter'
 import { useItemSet } from '~/lib/hooks/useItemSet'
 
@@ -38,7 +38,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
     originator.uniqueItems,
     originator.commodityStacks,
     originSet,
-    'exclude'
+    'exclude',
   )
 
   const { uniqueItems: originUniqueTrade, commodityStacks: originStackTrade } =
@@ -46,7 +46,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       originator.uniqueItems,
       originator.commodityStacks,
       originSet,
-      'include'
+      'include',
     )
 
   const {
@@ -56,7 +56,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
     recipient.uniqueItems,
     recipient.commodityStacks,
     recipientSet,
-    'exclude'
+    'exclude',
   )
 
   const { uniqueItems: recipUniqueTrade, commodityStacks: recipStackTrade } =
@@ -64,7 +64,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       recipient.uniqueItems,
       recipient.commodityStacks,
       recipientSet,
-      'include'
+      'include',
     )
 
   const onDragOver = useCallback((ev: DragOverEvent) => {
@@ -87,7 +87,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       if (isOverTrade) dispatch({ action: 'add', id })
       else dispatch({ action: 'remove', id })
     },
-    [originator.id, dispatchOrigin, dispatchRecipient]
+    [originator.id, dispatchOrigin, dispatchRecipient],
   )
 
   const confirm = useCallback(() => {
@@ -146,8 +146,8 @@ interface TradeInterfaceProps {
   uniqueTrade: readonly UniqueItemModel[]
   stackTrade: readonly CommodityStackModel[]
 
-  onDragOver: (ev: DragOverEvent) => void
-  onDragEnd: (ev: DragEndEvent) => void
+  onDragOver(ev: DragOverEvent): void
+  onDragEnd(ev: DragEndEvent): void
 }
 
 const TradeInterface: FC<TradeInterfaceProps> = ({
@@ -186,7 +186,7 @@ const TradeInterface: FC<TradeInterfaceProps> = ({
 // #endregion
 
 // #region Drag Grids
-type IgnoreFields = 'commodityStack' | 'uniqueItem' | 'blankItem'
+type IgnoreFields = 'blankItem' | 'commodityStack' | 'uniqueItem'
 
 type DragGridProps = Omit<ItemGridProps, IgnoreFields>
 const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (

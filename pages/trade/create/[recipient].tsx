@@ -35,7 +35,7 @@ const TradeCreate: NextPage = () => {
 
   const loading = useMemo<boolean>(
     () => originLoading || recipLoading,
-    [originLoading, recipLoading]
+    [originLoading, recipLoading],
   )
 
   if (originError) {

@@ -17,7 +17,7 @@ export interface DragProps {
   draggable?: boolean
 }
 
-export const BaseItem: FC<PropsWithChildren<Props & DragProps>> = ({
+export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
   id,
   draggable = false,
   img,
@@ -46,7 +46,7 @@ export const BaseItem: FC<PropsWithChildren<Props & DragProps>> = ({
         'm-1 max-w-[6rem]',
         'flex items-center justify-center',
         'group cursor-pointer',
-        className
+        className,
       )}
       {...listeners}
       {...attributes}

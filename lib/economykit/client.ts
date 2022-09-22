@@ -1,7 +1,6 @@
-import {
-  createPlayerScopedClient,
-  PlayerAuth,
-} from '@worldql/economykit-client'
+import process from 'process'
+import type { PlayerAuth } from '@worldql/economykit-client'
+import { createPlayerScopedClient } from '@worldql/economykit-client'
 import { type PlayerAuthAPI } from '~/pages/api/login'
 
 const ECONOMYKIT_APP_URL = process.env.NEXT_PUBLIC_ECONOMYKIT_APP_URL

@@ -11,8 +11,11 @@
     "project": "./tsconfig.eslint.json"
   },
   "rules": {
+    "@next/next/no-img-element": "off",
+    "unicorn/prefer-node-protocol": "off",
     "typescript-sort-keys/interface": "off",
     "@typescript-eslint/lines-between-class-members": "off",
+    "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
 
     "no-warning-comments": [

@@ -10,8 +10,8 @@ import {
 
 interface Props {
   value: string
-  onChange: (value: string) => void
-  onSubmit?: () => void
+  onChange(value: string): void
+  onSubmit?(): void
 
   label?: string
   placeholder?: string
@@ -36,7 +36,7 @@ export const TextInput: FC<Props> = ({
     ev => {
       if (typeof onChange === 'function') onChange(ev.target.value)
     },
-    [onChange]
+    [onChange],
   )
 
   const handleKeyDown = useCallback<KeyboardEventHandler<HTMLInputElement>>(
@@ -44,7 +44,7 @@ export const TextInput: FC<Props> = ({
       if (ev.key !== 'Enter') return
       if (typeof onSubmit === 'function') onSubmit()
     },
-    [onSubmit]
+    [onSubmit],
   )
 
   return (
@@ -60,7 +60,7 @@ export const TextInput: FC<Props> = ({
         type='text'
         className={clsx(
           'block rounded-md border-gray-300 text-[0.9rem] shadow-sm focus:border-primary focus:ring-primary',
-          className
+          className,
         )}
         style={style}
         placeholder={placeholder}

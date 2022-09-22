@@ -8,7 +8,7 @@ import {
 
 interface Props {
   disabled?: boolean
-  onClick: () => void
+  onClick(): void
 
   className?: string
   style?: CSSProperties
@@ -31,7 +31,7 @@ export const Button: FC<PropsWithChildren<Props>> = ({
       disabled={disabled}
       className={clsx(
         'rounded-md bg-primary px-4 py-2 text-[0.9rem] text-white transition-all enabled:hover:bg-primary-dark enabled:active:bg-primary-darker disabled:opacity-50',
-        className
+        className,
       )}
       style={style}
       onClick={handleClick}

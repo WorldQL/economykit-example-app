@@ -23,7 +23,7 @@ const LoginPage: NextPage = () => {
         setLoading(false)
       }
     },
-    [authenticate, redirect, setLoading, setError]
+    [authenticate, redirect, setLoading, setError],
   )
 
   return (

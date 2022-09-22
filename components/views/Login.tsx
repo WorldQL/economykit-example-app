@@ -8,7 +8,7 @@ interface Props {
   loading: boolean
   error?: Error
 
-  onLogin: (username: string) => void
+  onLogin(username: string): void
 }
 
 export const Login: FC<Props> = ({ loading, error, onLogin }) => {

@@ -1,11 +1,12 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { type FC, PropsWithChildren, useCallback, useMemo } from 'react'
-import { useAuth } from '~/lib/hooks/useAuth'
+import type { PropsWithChildren } from 'react'
+import { type FC, useCallback, useMemo } from 'react'
 import { Button } from './Button'
+import { useAuth } from '~/lib/hooks/useAuth'
 
-export type NavItems = Array<[name: string, href: string]>
+export type NavItems = [name: string, href: string][]
 interface Props {
   nav: NavItems
 }
@@ -51,7 +52,7 @@ const NavbarItem: FC<PropsWithChildren<ItemProps>> = ({ href, children }) => {
       <a
         className={clsx(
           'flex h-full flex-col justify-center border-y-2 border-y-transparent transition-colors',
-          active && 'border-b-primary'
+          active && 'border-b-primary',
         )}
       >
         {children}

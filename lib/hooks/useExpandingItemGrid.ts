@@ -1,20 +1,20 @@
-import { useMemo } from 'react'
 import {
   type CommodityStack,
   type UniqueItem,
-} from '~/lib/economykit/inventory'
+} from '@worldql/economykit-client'
+import { useMemo } from 'react'
 
 type UniqueItems = readonly UniqueItem[]
 type CommodityStacks = readonly CommodityStack[]
 
-type AllItems = Array<UniqueItem | CommodityStack | undefined>
+type AllItems = (CommodityStack | UniqueItem | undefined)[]
 
 export const useExpandingItemGrid = (
   uniqueItems: UniqueItems,
   commodityStacks: CommodityStacks,
-  width = 4
+  width = 4,
 ) => {
-  const items = useMemo<AllItems>(() => {
+  return useMemo<AllItems>(() => {
     const combined = [...uniqueItems, ...commodityStacks]
     const nearest = Math.ceil(combined.length / width) * width
 
@@ -23,6 +23,4 @@ export const useExpandingItemGrid = (
 
     return [...combined, ...padding]
   }, [uniqueItems, commodityStacks, width])
-
-  return items
 }

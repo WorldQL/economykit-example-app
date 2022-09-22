@@ -1,3 +1,4 @@
+import process from 'process'
 import { createAppScopedClient } from '@worldql/economykit-client'
 
 const ECONOMYKIT_APP_URL = process.env.NEXT_PUBLIC_ECONOMYKIT_APP_URL
@@ -9,5 +10,5 @@ if (!ECONOMYKIT_APP_TOKEN) {
 
 export const appClient = createAppScopedClient(
   ECONOMYKIT_APP_TOKEN,
-  ECONOMYKIT_APP_URL
+  ECONOMYKIT_APP_URL,
 )

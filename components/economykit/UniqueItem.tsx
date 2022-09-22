@@ -1,9 +1,9 @@
 import fnv1a from '@sindresorhus/fnv1a'
-import { type FC, useMemo } from 'react'
 import { type UniqueItem as UniqueItemModel } from '@worldql/economykit-client'
+import { type FC, useMemo } from 'react'
 import { BaseItem, type DragProps } from './BaseItem'
 
-export const UniqueItem: FC<UniqueItemModel & DragProps> = ({
+export const UniqueItem: FC<DragProps & UniqueItemModel> = ({
   id,
   image,
   draggable,

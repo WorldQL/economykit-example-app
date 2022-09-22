@@ -1,20 +1,20 @@
-import chunk from 'chunk'
-import { type Reducer, useCallback, useMemo, useReducer } from 'react'
 import {
   type CommodityStack,
   type UniqueItem,
 } from '@worldql/economykit-client'
+import chunk from 'chunk'
+import { type Reducer, useCallback, useMemo, useReducer } from 'react'
 
 type UniqueItems = readonly UniqueItem[]
 type CommodityStacks = readonly CommodityStack[]
 
-type AllItems = Array<UniqueItem | CommodityStack | undefined>
+type AllItems = (CommodityStack | UniqueItem | undefined)[]
 
 export const useItemGrid = (
   uniqueItems: UniqueItems,
   commodityStacks: CommodityStacks,
   width = 5,
-  height = width
+  height = width,
 ) => {
   const squared = width * height
 
@@ -30,7 +30,7 @@ export const useItemGrid = (
 
   const pages = useMemo<number>(
     () => allItems.length / squared,
-    [allItems, squared]
+    [allItems, squared],
   )
 
   type Action = 'next' | 'prev'
@@ -48,17 +48,17 @@ export const useItemGrid = (
           return previousState
       }
     },
-    1
+    1,
   )
 
   const chunkedItems = useMemo<AllItems[]>(
     () => chunk(allItems, squared),
-    [allItems, squared]
+    [allItems, squared],
   )
 
   const currentPage = useMemo<AllItems>(
     () => chunkedItems[page - 1],
-    [chunkedItems, page]
+    [chunkedItems, page],
   )
 
   const firstPage = useMemo<boolean>(() => page === 1, [page])

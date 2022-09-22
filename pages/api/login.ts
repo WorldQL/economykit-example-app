@@ -1,10 +1,10 @@
+import { ExternalIdentifier, type PlayerAuth } from '@worldql/economykit-client'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import ms from 'ms'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import nc from 'next-connect'
 import { appClient } from '~/lib/economykit/server'
-import { ExternalIdentifier, type PlayerAuth } from '@worldql/economykit-client'
-import { DeepMap } from '~/lib/types'
+import type { DeepMap } from '~/lib/types'
 
 const stringParameter = (request: NextApiRequest, key: string) => {
   const value = request.body[key] as unknown
@@ -31,7 +31,7 @@ handler.post(async (request, resp) => {
     name,
     ExternalIdentifier.CUSTOM,
     name,
-    expires
+    expires,
   )
 
   resp.send(playerAuth)

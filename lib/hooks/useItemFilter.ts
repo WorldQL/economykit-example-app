@@ -1,11 +1,15 @@
 import { type Reducer, useReducer } from 'react'
 
 type Action = 'add' | 'remove'
-type ActionData = { action: Action; id: string }
+interface ActionData {
+  action: Action
+  id: string
+}
+
 type ItemsReducer = Reducer<Set<string>, ActionData>
 
 export const useItemFilter = () => {
-  const reducer = useReducer<ItemsReducer>((previousState, { action, id }) => {
+  return useReducer<ItemsReducer>((previousState, { action, id }) => {
     switch (action) {
       case 'add': {
         previousState.add(id)
@@ -21,6 +25,4 @@ export const useItemFilter = () => {
         return previousState
     }
   }, new Set())
-
-  return reducer
 }

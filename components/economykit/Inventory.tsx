@@ -1,10 +1,10 @@
+import { type Inventory as InventoryModel } from '@worldql/economykit-client'
 import { type FC } from 'react'
 import { BlankItem } from '~/components/economykit/BlankItem'
 import { CommodityStack } from '~/components/economykit/CommodityStack'
 import { ItemGrid } from '~/components/economykit/ItemGrid'
 import { UniqueItem } from '~/components/economykit/UniqueItem'
 import { Card } from '~/components/ui/Card'
-import { type Inventory as InventoryModel } from '@worldql/economykit-client'
 
 export const Inventory: FC<InventoryModel> = ({
   id,

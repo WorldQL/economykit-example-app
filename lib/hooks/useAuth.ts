@@ -1,10 +1,11 @@
+import { URLSearchParams } from 'url'
+import { type PlayerScopedClient } from '@worldql/economykit-client'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { createGlobalState } from 'react-hooks-global-state'
-import { type PlayerAuthAPI } from '~/pages/api/login'
 import { createPlayerClient } from '~/lib/economykit/client'
-import { type PlayerScopedClient } from '@worldql/economykit-client'
+import { type PlayerAuthAPI } from '~/pages/api/login'
 
 const STORAGE_KEY = 'auth'
 type AuthData = PlayerAuthAPI | undefined
@@ -30,8 +31,8 @@ const { useGlobalState } = createGlobalState<State>({
 })
 
 interface UseAuth extends State {
-  authenticate: (name: string) => Promise<void>
-  logout: () => void
+  authenticate(this: void, name: string): Promise<void>
+  logout(this: void): void
 }
 
 export const useAuth: () => UseAuth = () => {
@@ -45,7 +46,7 @@ export const useAuth: () => UseAuth = () => {
       setDataMemory(client)
       setDataStorage(data)
     },
-    [setDataMemory]
+    [setDataMemory],
   )
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export const useAuth: () => UseAuth = () => {
 
     const local = getDataStorage()
     const now = Date.now()
-    const expires = local !== undefined ? new Date(local.expires) : undefined
+    const expires = local === undefined ? undefined : new Date(local.expires)
 
     if (expires && now < expires.getTime()) setData(local)
     setLoaded(true)
@@ -69,7 +70,7 @@ export const useAuth: () => UseAuth = () => {
         // TODO
       }
     },
-    [setData]
+    [setData],
   )
 
   const logout = useCallback(() => setData(undefined), [setData])
@@ -89,7 +90,7 @@ export const useEnsureAuth = () => {
     }
   }, [loaded, data, isReady, asPath, replace])
 
-  return !loaded ? undefined : data
+  return loaded ? data : undefined
 }
 
 export const useEnsureLogin = () => {
