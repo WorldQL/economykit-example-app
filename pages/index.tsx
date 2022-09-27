@@ -13,10 +13,10 @@ import { useInventory } from '~/lib/hooks/useInventory'
 import { usePlayers } from '~/lib/hooks/usePlayers'
 
 const Root: NextPage = () => {
-  const auth = useEnsureAuth()
+  const client = useEnsureAuth()
   const { push } = useRouter()
-  const { inventory, error: inventoryError } = useInventory(auth)
-  const { players, error: playersError } = usePlayers(auth)
+  const { inventory, error: inventoryError } = useInventory(client)
+  const { players, error: playersError } = usePlayers(client)
 
   const viewInventory = useCallback(() => {
     void push('/inventory')
@@ -32,8 +32,8 @@ const Root: NextPage = () => {
     )
   }
 
-  if (!auth || !inventory || !players) return <Loading />
-  const { displayName } = auth
+  if (!client || !inventory || !players) return <Loading />
+  const { name } = client
 
   return (
     <>
@@ -41,7 +41,7 @@ const Root: NextPage = () => {
         <title>EconomyKit Example App | Dashboard</title>
       </Head>
 
-      <Page username={displayName}>
+      <Page username={name}>
         <Card className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div>
             <h1 className='text-lg font-semibold'>Inventory</h1>

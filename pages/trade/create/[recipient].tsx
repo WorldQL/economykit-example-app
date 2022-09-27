@@ -10,7 +10,7 @@ import { useEnsureAuth } from '~/lib/hooks/useAuth'
 import { useInventory } from '~/lib/hooks/useInventory'
 
 const TradeCreate: NextPage = () => {
-  const auth = useEnsureAuth()
+  const client = useEnsureAuth()
 
   const { query, isReady } = useRouter()
   const recipientID = useMemo<string | undefined>(() => {
@@ -25,13 +25,13 @@ const TradeCreate: NextPage = () => {
     inventory: originator,
     loading: originLoading,
     error: originError,
-  } = useInventory(auth)
+  } = useInventory(client)
 
   const {
     inventory: recipient,
     loading: recipLoading,
     error: recipError,
-  } = useInventory(auth, recipientID)
+  } = useInventory(client, recipientID)
 
   const loading = useMemo<boolean>(
     () => originLoading || recipLoading,
@@ -60,8 +60,8 @@ const TradeCreate: NextPage = () => {
     )
   }
 
-  if (!auth || loading || !originator || !recipient) return <Loading />
-  const { displayName } = auth
+  if (!client || loading || !originator || !recipient) return <Loading />
+  const { name } = client
 
   return (
     <>
@@ -69,7 +69,7 @@ const TradeCreate: NextPage = () => {
         <title>EconomyKit Example App | Create Trade</title>
       </Head>
 
-      <Page username={displayName}>
+      <Page username={name}>
         <Trade originator={originator} recipient={recipient} />
       </Page>
     </>

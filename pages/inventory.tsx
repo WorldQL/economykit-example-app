@@ -8,8 +8,8 @@ import { useEnsureAuth } from '~/lib/hooks/useAuth'
 import { useInventory } from '~/lib/hooks/useInventory'
 
 const InventoryPage: NextPage = () => {
-  const auth = useEnsureAuth()
-  const { inventory, error } = useInventory(auth)
+  const client = useEnsureAuth()
+  const { inventory, error } = useInventory(client)
 
   if (error) {
     return (
@@ -20,8 +20,8 @@ const InventoryPage: NextPage = () => {
     )
   }
 
-  if (!auth || !inventory) return <Loading />
-  const { displayName } = auth
+  if (!client || !inventory) return <Loading />
+  const { name } = client
 
   return (
     <>
@@ -29,7 +29,7 @@ const InventoryPage: NextPage = () => {
         <title>EconomyKit Example App | Inventory</title>
       </Head>
 
-      <Page username={displayName}>
+      <Page username={name}>
         <Inventory {...inventory} />
       </Page>
     </>
