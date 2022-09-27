@@ -1,4 +1,3 @@
-import { URLSearchParams } from 'url'
 import { type PlayerScopedClient } from '@worldql/economykit-client'
 import axios from 'axios'
 import { useRouter } from 'next/router'

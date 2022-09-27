@@ -19,7 +19,9 @@ export const useInventory: (
   const id = player ?? client?.id
   const { data: inventory, error } = useSWR<Inventory, AxiosError>(
     client && id && [`/inventory/${id}`, client, id],
-    async (_, client: PlayerScopedClient, id: string) => client.inventory(id),
+    async (_: unknown, client: PlayerScopedClient, id: string) => {
+      return client.listInventory(id)
+    },
   )
 
   const loading = useMemo<boolean>(

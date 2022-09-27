@@ -80,14 +80,14 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       if (typeof id !== 'string') return
       if (typeof over !== 'string') return
 
-      const isOriginator = over.startsWith(originator.id)
+      const isOriginator = over.startsWith(originator.playerID)
       const isOverTrade = over.endsWith('/trade')
 
       const dispatch = isOriginator ? dispatchOrigin : dispatchRecipient
       if (isOverTrade) dispatch({ action: 'add', id })
       else dispatch({ action: 'remove', id })
     },
-    [originator.id, dispatchOrigin, dispatchRecipient],
+    [originator.playerID, dispatchOrigin, dispatchRecipient],
   )
 
   const confirm = useCallback(() => {
@@ -99,7 +99,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       <div className='flex flex-col gap-8 lg:flex-row lg:gap-4'>
         <TradeInterface
           title='Your Items'
-          id={originator.id}
+          id={originator.playerID}
           uniqueInventory={originUniqueInventory}
           stackInventory={originStackInventory}
           uniqueTrade={originUniqueTrade}
@@ -122,7 +122,7 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
 
         <TradeInterface
           title='Their Items'
-          id={recipient.id}
+          id={recipient.playerID}
           uniqueInventory={recipUniqueInventory}
           stackInventory={recipStackInventory}
           uniqueTrade={recipUniqueTrade}

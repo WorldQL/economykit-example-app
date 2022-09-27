@@ -18,7 +18,7 @@ export const usePlayers: (
 ) => UsePlayers = (client, filterSelf = true) => {
   const { data: allPlayers, error } = useSWR<readonly Player[], AxiosError>(
     client && [`/players`, client],
-    async (_, client: PlayerScopedClient) => client.players(),
+    async (_: unknown, client: PlayerScopedClient) => client.listPlayers(),
   )
 
   const loading = useMemo<boolean>(

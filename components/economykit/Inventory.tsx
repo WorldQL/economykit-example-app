@@ -7,7 +7,7 @@ import { UniqueItem } from '~/components/economykit/UniqueItem'
 import { Card } from '~/components/ui/Card'
 
 export const Inventory: FC<InventoryModel> = ({
-  id,
+  playerID: id,
   uniqueItems,
   commodityStacks,
 }) => (

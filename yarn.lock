@@ -360,20 +360,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lolpants/chunk@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@lolpants/chunk@npm:0.1.0"
-  checksum: 22b0e9a930b0700f19c0a18592a670c4595329adf05b825b8e155eb6b96188fd3760684814978c1b913da92c34fff9b9aafe6635084a10b58013e61788bbd018
-  languageName: node
-  linkType: hard
-
-"@lolpants/eslint-config@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@lolpants/eslint-config@npm:0.1.1"
+"@lolpants/eslint-config@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@lolpants/eslint-config@npm:0.1.2"
   dependencies:
     eslint-plugin-eslint-comments: ^3.2.0
     eslint-plugin-no-use-extend-native: ^0.5.0
-  checksum: 48cbee3e2106566bf726bc26573da354f6be39bc22a50c2a2d697aa29e32bcc14dbaa933787e223ceb652442d090f950409ace089c173a2e71ce0aa78b3ff6b0
+  checksum: c445df079f577833394878cd8958f902c3e912bf0394759c125077bac01702a2b57b9fa0ccdcf95db2353948784f62de130e2b5c2f14183e46f472c27b80b8c9
   languageName: node
   linkType: hard
 
@@ -588,6 +581,13 @@ __metadata:
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
   checksum: ad87447820dd3f24825d2d947ebc03072b20a42bfc96cbafec16bff8bbda6c1a81fcb0be56d5b21968560c5359a0af4038a68ba150c3e1694fe4c109a063bed8
+  languageName: node
+  linkType: hard
+
+"@types/chunk@npm:^0.0.0":
+  version: 0.0.0
+  resolution: "@types/chunk@npm:0.0.0"
+  checksum: fb7e8b1ea180bc5cfaf239f1b934e22036ebe0915fca21394d8fd6e97a925f3c4dd6643c57955ad75a164e2f19d2b137d7aa60fb9c07608878ae31abf55a7794
   languageName: node
   linkType: hard
 
@@ -875,14 +875,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@worldql/economykit-client@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@worldql/economykit-client@npm:0.1.5"
+"@worldql/economykit-client@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@worldql/economykit-client@npm:0.2.1"
   dependencies:
     axios: ^0.27.2
     iso-url: ^1.2.1
     tslib: ^2.4.0
-  checksum: cc42a5ad3484b0cf95cdff778d2b9a5405bf858a551f2ac4622e4a807528ddf832f32400c950106a368e179a4fb772c21f154c8509a023e1ecb4e546f912988c
+  checksum: 8d355e538e977af28fee047e4cf9e57a47a98570e79db1549d9ad804d12026a0fb0bc004939264247c386951391fe0fae17e672c789fc4ca322835ea0b4ad162
   languageName: node
   linkType: hard
 
@@ -1391,6 +1391,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chunk@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "chunk@npm:0.0.3"
+  checksum: 5e0c9d0343f0e874b7693d0b63b80d63a49c81fe786675c2c8f4d1b698c4d62216fd41b3b042690aec9acf762982c9184ee1a20c3db1ee58b7d2a1252e733bd2
+  languageName: node
+  linkType: hard
+
 "ci-info@npm:^3.3.2":
   version: 3.4.0
   resolution: "ci-info@npm:3.4.0"
@@ -1693,17 +1700,18 @@ __metadata:
   dependencies:
     "@dnd-kit/core": ^6.0.5
     "@dnd-kit/utilities": ^3.2.0
-    "@lolpants/chunk": ^0.1.0
-    "@lolpants/eslint-config": ^0.1.1
+    "@lolpants/eslint-config": ^0.1.2
     "@sindresorhus/fnv1a": ^3.0.0
     "@tailwindcss/forms": ^0.5.3
+    "@types/chunk": ^0.0.0
     "@types/ms": ^0.7.31
     "@types/node": ^18.7.23
     "@types/react": ^18.0.21
     "@types/react-dom": ^18.0.6
-    "@worldql/economykit-client": ^0.1.5
+    "@worldql/economykit-client": ^0.2.1
     autoprefixer: ^10.4.12
     axios: ^0.27.2
+    chunk: ^0.0.3
     clsx: ^1.2.1
     eslint: ^8.24.0
     eslint-config-neon: ^0.1.33

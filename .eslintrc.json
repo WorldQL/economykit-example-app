@@ -14,8 +14,9 @@
   },
   "rules": {
     "@next/next/no-img-element": "off",
-    "unicorn/prefer-node-protocol": "off",
-    "@typescript-eslint/no-use-before-define": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+    "n/prefer-global/url-search-params": "off",
+    "unicorn/prefer-node-protocol": "off"
   },
   "ignorePatterns": ["**/build/*"],
   "env": {
