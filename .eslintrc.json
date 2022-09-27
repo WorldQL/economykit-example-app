@@ -5,7 +5,9 @@
     "neon/node",
     "neon/typescript",
     "neon/next",
-    "neon/prettier"
+    "neon/prettier",
+    "@lolpants/eslint-config/base",
+    "@lolpants/eslint-config/typescript"
   ],
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
@@ -13,18 +15,7 @@
   "rules": {
     "@next/next/no-img-element": "off",
     "unicorn/prefer-node-protocol": "off",
-    "typescript-sort-keys/interface": "off",
-    "@typescript-eslint/lines-between-class-members": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-
-    "no-warning-comments": [
-      1,
-      {
-        "location": "start",
-        "terms": ["TODO", "@toto"]
-      }
-    ]
+    "@typescript-eslint/no-use-before-define": "off"
   },
   "ignorePatterns": ["**/build/*"],
   "env": {
