@@ -3,11 +3,13 @@ import { type FC, useMemo } from 'react'
 import { BaseItem, type DragProps } from './BaseItem'
 
 export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
-  id,
-  image,
-  quantity,
   draggable,
+  data: rawData,
+  ...stack
 }) => {
+  const { id, quantity, image } = stack
+  const data = useMemo(() => ({ ...rawData, ...stack }), [stack, rawData])
+
   const qty = useMemo<string>(() => {
     const human = quantity.toLocaleString(undefined, {
       maximumFractionDigits: 0,
@@ -19,6 +21,7 @@ export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
   return (
     <BaseItem
       id={id}
+      data={data}
       img={image}
       draggable={draggable}
       className='outline-gray-400'

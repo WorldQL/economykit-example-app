@@ -15,10 +15,12 @@ interface Props {
 
 export interface DragProps {
   draggable?: boolean
+  data?: Record<string, unknown>
 }
 
 export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
   id,
+  data,
   draggable = false,
   img,
   alt,
@@ -29,6 +31,7 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
+      data,
       disabled: !draggable,
     })
 

@@ -73,19 +73,32 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
 
   const onDragEnd = useCallback(
     (ev: DragEndEvent) => {
-      const id = ev.active.id
+      const rawID = ev.active.id
       const over = ev.over?.id
 
       if (!over) return
-      if (typeof id !== 'string') return
+      if (typeof rawID !== 'string') return
       if (typeof over !== 'string') return
+
+      type Data = CommodityStackModel | UniqueItemModel | undefined
+      const data = ev.active.data.current as Data
+      if (data === undefined) {
+        throw new Error('data is undefined')
+      }
 
       const isOriginator = over.startsWith(originator.playerID)
       const isOverTrade = over.endsWith('/trade')
 
+      const [id] = data.id.split('/')
+      const entity: CommodityStackModel | UniqueItemModel = { ...data, id }
       const dispatch = isOriginator ? dispatchOrigin : dispatchRecipient
-      if (isOverTrade) dispatch({ action: 'add', id })
-      else dispatch({ action: 'remove', id })
+
+      if (isOverTrade) {
+        console.log('aa')
+        dispatch({ action: 'add', entity, quantity: 1 })
+      } else {
+        dispatch({ action: 'remove', entity, quantity: 1 })
+      }
     },
     [originator.playerID, dispatchOrigin, dispatchRecipient],
   )
