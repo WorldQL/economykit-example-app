@@ -8,6 +8,7 @@ import { BlankItem } from '~/components/economykit/BlankItem'
 import { CommodityStack } from '~/components/economykit/CommodityStack'
 import { ExpandingItemGrid } from '~/components/economykit/ExpandingItemGrid'
 import { UniqueItem } from '~/components/economykit/UniqueItem'
+import { Button } from '~/components/ui/Button'
 import { Card } from '~/components/ui/Card'
 
 interface Props {
@@ -16,14 +17,19 @@ interface Props {
 }
 
 const TradeComponent: FC<Props> = ({ trade, clientID }) => {
-  const you = useMemo(
-    () => (trade.sender.id === clientID ? trade.sender : trade.recipient),
+  const sending = useMemo<boolean>(
+    () => trade.sender.id === clientID,
     [trade, clientID],
   )
 
+  const you = useMemo(
+    () => (sending ? trade.sender : trade.recipient),
+    [sending, trade],
+  )
+
   const them = useMemo(
-    () => (trade.sender.id !== clientID ? trade.sender : trade.recipient),
-    [trade, clientID],
+    () => (!sending ? trade.sender : trade.recipient),
+    [sending, trade],
   )
 
   return (
@@ -37,18 +43,23 @@ const TradeComponent: FC<Props> = ({ trade, clientID }) => {
         />
 
         <div className='flex flex-grow flex-col items-center justify-center'>
-          {/* <div className='flex flex-grow items-center justify-center'>
-            <h2 className='text-center'>
-              Drag and Drop items into the Trade Box Below
-            </h2>
-          </div>
+          {sending ? (
+            <div className='text-neutral-800'>
+              Waiting for <b>{them.name}</b> to respond...
+            </div>
+          ) : (
+            // TODO: Style buttons
+            // TODO: Implement buttons
+            <div className='flex flex-col gap-2'>
+              <Button className='mt-4 lg:mt-0' onClick={() => void 0}>
+                Accept Trade Request
+              </Button>
 
-          <Button
-            className='mt-4 lg:mt-0'
-            onClick={confirm}
-          >
-            Send Trade Request
-          </Button> */}
+              <Button className='mt-4 lg:mt-0' onClick={() => void 0}>
+                Deny Trade Request
+              </Button>
+            </div>
+          )}
         </div>
 
         <TradeInterface
