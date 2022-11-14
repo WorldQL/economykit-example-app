@@ -48,15 +48,14 @@ const NavbarItem: FC<PropsWithChildren<ItemProps>> = ({ href, children }) => {
   const active = useMemo<boolean>(() => href === pathname, [href, pathname])
 
   return (
-    <Link href={href} passHref>
-      <a
-        className={clsx(
-          'flex h-full flex-col justify-center border-y-2 border-y-transparent transition-colors',
-          active && 'border-b-primary',
-        )}
-      >
-        {children}
-      </a>
+    <Link
+      className={clsx(
+        'flex h-full flex-col justify-center border-y-2 border-y-transparent transition-colors',
+        active && 'border-b-primary',
+      )}
+      href={href}
+    >
+      {children}
     </Link>
   )
 }

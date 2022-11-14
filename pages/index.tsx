@@ -62,8 +62,11 @@ const Root: NextPage = () => {
             <ul>
               {players.map(player => (
                 <li key={player.id}>
-                  <Link href={`/trade/create/${player.id}`}>
-                    <a className='underline'>{player.name}</a>
+                  <Link
+                    className='underline'
+                    href={`/trade/create/${player.id}`}
+                  >
+                    {player.name}
                   </Link>
                 </li>
               ))}
