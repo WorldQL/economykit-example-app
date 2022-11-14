@@ -2,6 +2,7 @@ import { type NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import { Trade } from '~/components/economykit/Trade'
 import { Error } from '~/components/views/Error'
 import { Loading } from '~/components/views/Loading'
 import { Page } from '~/components/views/Page'
@@ -41,7 +42,7 @@ const TradePending: NextPage = () => {
       </Head>
 
       <Page username={name}>
-        <pre>{JSON.stringify(trade)}</pre>
+        <Trade clientID={client.id} trade={trade} />
       </Page>
     </>
   )
