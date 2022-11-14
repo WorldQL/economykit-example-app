@@ -9,6 +9,7 @@ import {
   type PlayerScopedClient,
   type UniqueItem as UniqueItemModel,
 } from '@worldql/economykit-client'
+import { useRouter } from 'next/router'
 import { type FC, type PointerEvent, useCallback, useMemo } from 'react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -35,6 +36,7 @@ interface Props {
 }
 
 export const TradeRequest: FC<Props> = ({ client, originator, recipient }) => {
+  const { replace } = useRouter()
   const [originSet, dispatchOrigin] = useItemFilter()
   const [recipientSet, dispatchRecipient] = useItemFilter()
 
@@ -149,7 +151,7 @@ export const TradeRequest: FC<Props> = ({ client, originator, recipient }) => {
         receivedUniqueItems: recipUniqueTrade.map(item => item.id),
       })
 
-      console.log(trade)
+      void replace(`/trade/pending/${trade.id}`)
     } catch (error) {
       console.error(error)
 
@@ -167,6 +169,7 @@ export const TradeRequest: FC<Props> = ({ client, originator, recipient }) => {
     originStackTrade,
     recipUniqueTrade,
     recipStackTrade,
+    replace,
   ])
 
   const disabled = useMemo<boolean>(() => {

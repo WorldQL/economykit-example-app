@@ -25,7 +25,7 @@ const TradePending: NextPage = () => {
   if (error) {
     return (
       <Error>
-        <p>Failed to load your inventory!</p>
+        <p>Failed to trade details!</p>
         {error.response ? <pre>Error {error.response.status}</pre> : null}
       </Error>
     )
