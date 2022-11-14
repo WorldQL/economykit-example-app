@@ -8,7 +8,7 @@ export const UniqueItem: FC<DragProps & UniqueItemModel> = ({
   data: rawData,
   ...item
 }) => {
-  const { id, image } = item
+  const { id, image, displayName } = item
   const data = useMemo(() => ({ ...rawData, ...item }), [item, rawData])
 
   const colour = useMemo<string>(() => {
@@ -20,6 +20,7 @@ export const UniqueItem: FC<DragProps & UniqueItemModel> = ({
 
   return (
     <BaseItem
+      alt={displayName}
       className='outline-[color:var(--ring-color)]'
       data={data}
       draggable={draggable}

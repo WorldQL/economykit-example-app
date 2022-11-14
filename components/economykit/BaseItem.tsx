@@ -58,6 +58,7 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
         alt={alt}
         className='select-none rounded-lg p-1 transition-[padding] group-hover:p-[1px]'
         src={img}
+        title={alt}
         width={100}
       />
       {children}

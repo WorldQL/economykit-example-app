@@ -7,7 +7,7 @@ export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
   data: rawData,
   ...stack
 }) => {
-  const { id, quantity, image } = stack
+  const { id, quantity, image, displayName } = stack
   const data = useMemo(() => ({ ...rawData, ...stack }), [stack, rawData])
 
   const qty = useMemo<string>(() => {
@@ -20,6 +20,7 @@ export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
 
   return (
     <BaseItem
+      alt={displayName}
       className='outline-gray-400'
       data={data}
       draggable={draggable}
