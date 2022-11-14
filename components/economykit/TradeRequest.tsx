@@ -6,9 +6,12 @@ import {
 import {
   type CommodityStack as CommodityStackModel,
   type Inventory,
+  type PlayerScopedClient,
   type UniqueItem as UniqueItemModel,
 } from '@worldql/economykit-client'
-import { type FC, useCallback } from 'react'
+import { type FC, type PointerEvent, useCallback, useMemo } from 'react'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import { BlankItem } from '~/components/economykit/BlankItem'
 import { CommodityStack } from '~/components/economykit/CommodityStack'
 import {
@@ -22,12 +25,16 @@ import { Card } from '~/components/ui/Card'
 import { useItemFilter } from '~/lib/hooks/useItemFilter'
 import { useItemSet } from '~/lib/hooks/useItemSet'
 
+const ReactSwal = withReactContent(Swal)
+
 interface Props {
+  client: PlayerScopedClient
+
   originator: Inventory
   recipient: Inventory
 }
 
-export const Trade: FC<Props> = ({ originator, recipient }) => {
+export const TradeRequest: FC<Props> = ({ client, originator, recipient }) => {
   const [originSet, dispatchOrigin] = useItemFilter()
   const [recipientSet, dispatchRecipient] = useItemFilter()
 
@@ -93,19 +100,81 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
       const entity: CommodityStackModel | UniqueItemModel = { ...data, id }
       const dispatch = isOriginator ? dispatchOrigin : dispatchRecipient
 
+      const event = ev.activatorEvent as unknown as PointerEvent
+      const altHeld = event.shiftKey
+      const shiftHeld = event.altKey
+
+      const max = entity.type === 'commodityStack' ? entity.quantity : 1
+      const quantity =
+        shiftHeld && altHeld
+          ? max
+          : altHeld && !shiftHeld
+          ? 5
+          : !altHeld && shiftHeld
+          ? 10
+          : 1
+
       if (isOverTrade) {
-        console.log('aa')
-        dispatch({ action: 'add', entity, quantity: 1 })
+        dispatch({ action: 'add', entity, quantity })
       } else {
-        dispatch({ action: 'remove', entity, quantity: 1 })
+        dispatch({ action: 'remove', entity, quantity })
       }
     },
     [originator.playerID, dispatchOrigin, dispatchRecipient],
   )
 
-  const confirm = useCallback(() => {
-    // TODO
-  }, [])
+  const confirm = useCallback(async () => {
+    const originCount = originUniqueTrade.length + originStackTrade.length
+    const recipCount = recipUniqueTrade.length + recipStackTrade.length
+    if (originCount + recipCount === 0) return
+
+    const { isConfirmed } = await ReactSwal.fire({
+      title: 'Trade Confirmation',
+      icon: 'question',
+      confirmButtonText: 'Confirm',
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      text: `Are you sure you want to trade your ${originCount} item(s) for their ${recipCount} item(s)?`,
+    })
+
+    if (!isConfirmed) return
+
+    try {
+      const trade = await client.placeTradeRequest({
+        sender: originator.playerID,
+        recipient: recipient.playerID,
+        sentCommodities: originStackTrade,
+        sentUniqueItems: originUniqueTrade.map(item => item.id),
+        receivedCommodities: recipStackTrade,
+        receivedUniqueItems: recipUniqueTrade.map(item => item.id),
+      })
+
+      console.log(trade)
+    } catch (error) {
+      console.error(error)
+
+      await ReactSwal.fire({
+        title: 'Error Sending Trade Request',
+        icon: 'error',
+        text: 'Something went wrong! Please try again later.',
+      })
+    }
+  }, [
+    client,
+    originator,
+    recipient,
+    originUniqueTrade,
+    originStackTrade,
+    recipUniqueTrade,
+    recipStackTrade,
+  ])
+
+  const disabled = useMemo<boolean>(() => {
+    const originCount = originUniqueTrade.length + originStackTrade.length
+    const recipCount = recipUniqueTrade.length + recipStackTrade.length
+
+    return originCount + recipCount === 0
+  }, [originUniqueTrade, originStackTrade, recipUniqueTrade, recipStackTrade])
 
   return (
     <Card>
@@ -128,7 +197,11 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
             </h2>
           </div>
 
-          <Button className='mt-4 lg:mt-0' onClick={confirm}>
+          <Button
+            className='mt-4 lg:mt-0'
+            disabled={disabled}
+            onClick={confirm}
+          >
             Send Trade Request
           </Button>
         </div>

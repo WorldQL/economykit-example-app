@@ -9,7 +9,7 @@ type Action = 'add' | 'remove'
 interface ActionData {
   action: Action
   entity: CommodityStack | UniqueItem
-  quantity: 1
+  quantity: number
 }
 
 export type ItemFilter = Map<string, number>

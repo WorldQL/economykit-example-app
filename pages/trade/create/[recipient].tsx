@@ -2,7 +2,7 @@ import { type NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-import { Trade } from '~/components/economykit/Trade'
+import { TradeRequest } from '~/components/economykit/TradeRequest'
 import { Error } from '~/components/views/Error'
 import { Loading } from '~/components/views/Loading'
 import { Page } from '~/components/views/Page'
@@ -70,7 +70,11 @@ const TradeCreate: NextPage = () => {
       </Head>
 
       <Page username={name}>
-        <Trade originator={originator} recipient={recipient} />
+        <TradeRequest
+          client={client}
+          originator={originator}
+          recipient={recipient}
+        />
       </Page>
     </>
   )
