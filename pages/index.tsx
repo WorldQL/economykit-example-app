@@ -86,7 +86,7 @@ const Root: NextPage = () => {
                 <li key={trade.id}>
                   <Link
                     className='underline'
-                    href={`/trade/pending/${trade.id}`}
+                    href={`/trade/status/${trade.id}`}
                   >
                     {trade.sender.id === client.id
                       ? trade.recipient.name

@@ -151,7 +151,7 @@ export const TradeRequest: FC<Props> = ({ client, originator, recipient }) => {
         receivedUniqueItems: recipUniqueTrade.map(item => item.id),
       })
 
-      void replace(`/trade/pending/${trade.id}`)
+      void replace(`/trade/status/${trade.id}`)
     } catch (error) {
       console.error(error)
 
