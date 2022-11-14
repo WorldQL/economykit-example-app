@@ -20,11 +20,11 @@ export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
 
   return (
     <BaseItem
-      id={id}
-      data={data}
-      img={image}
-      draggable={draggable}
       className='outline-gray-400'
+      data={data}
+      draggable={draggable}
+      id={id}
+      img={image}
     >
       <div className='absolute top-[1px] left-[1px] rounded bg-black/60 px-1 text-xs text-white'>
         {qty}

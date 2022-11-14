@@ -39,8 +39,8 @@ export const ItemGrid: FC<Props> = ({
   return (
     <div className='flex flex-col gap-3'>
       <div
-        ref={setNodeRef}
         className='grid gap-2'
+        ref={setNodeRef}
         style={{
           gridTemplateRows: `repeat(${height}, minmax(0, 1fr))`,
           gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,

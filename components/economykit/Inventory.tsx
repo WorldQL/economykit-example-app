@@ -17,12 +17,12 @@ export const Inventory: FC<InventoryModel> = ({
 
       <div className='flex w-full flex-col items-center gap-6 lg:flex-row lg:items-stretch'>
         <ItemGrid
-          id={id}
-          uniqueItems={uniqueItems}
-          commodityStacks={commodityStacks}
-          uniqueItem={item => <UniqueItem key={item.id} {...item} />}
-          commodityStack={item => <CommodityStack key={item.id} {...item} />}
           blankItem={idx => <BlankItem key={idx} />}
+          commodityStack={item => <CommodityStack key={item.id} {...item} />}
+          commodityStacks={commodityStacks}
+          id={id}
+          uniqueItem={item => <UniqueItem key={item.id} {...item} />}
+          uniqueItems={uniqueItems}
         />
 
         <div className='m-1 w-full flex-grow rounded p-2 outline outline-offset-2 outline-gray-400 lg:w-auto'>

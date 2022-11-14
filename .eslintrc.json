@@ -15,7 +15,10 @@
     "@next/next/no-img-element": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "n/prefer-global/url-search-params": "off",
-    "unicorn/prefer-node-protocol": "off"
+    "unicorn/prefer-node-protocol": "off",
+
+    "react/no-unstable-nested-components": "off",
+    "react/jsx-handler-names": "off"
   },
   "ignorePatterns": ["**/build/*"],
   "env": {

@@ -31,11 +31,11 @@ export const Login: FC<Props> = ({ loading, error, onLogin }) => {
         </h2>
 
         <TextInput
-          label='Username'
-          value={username}
           disabled={loading}
+          label='Username'
           onChange={setUsername}
           onSubmit={handleClick}
+          value={username}
         />
 
         <Button disabled={loading} onClick={handleClick}>

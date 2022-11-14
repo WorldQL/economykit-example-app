@@ -35,8 +35,8 @@ export const ExpandingItemGrid: FC<Props> = ({
 
   return (
     <div
-      ref={setNodeRef}
       className='grid gap-2'
+      ref={setNodeRef}
       style={{
         gridTemplateColumns: `repeat(${width}, minmax(0, 1fr))`,
       }}

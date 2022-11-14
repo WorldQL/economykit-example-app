@@ -9,10 +9,10 @@ export const BlankItem: FC = () => {
 
   return (
     <BaseItem
-      id={id}
-      draggable={false}
-      img={BLANK_PIXEL}
       className='cursor-default bg-gray-50 outline-gray-100'
+      draggable={false}
+      id={id}
+      img={BLANK_PIXEL}
     />
   )
 }

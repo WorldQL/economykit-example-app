@@ -37,12 +37,6 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
 
   return (
     <div
-      ref={setNodeRef}
-      style={{
-        ...style,
-        zIndex: isDragging ? '100' : undefined,
-        transform: CSS.Translate.toString(transform),
-      }}
       className={clsx(
         'relative aspect-square rounded',
         'outline outline-offset-2',
@@ -51,13 +45,19 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
         'group cursor-pointer',
         className,
       )}
+      ref={setNodeRef}
+      style={{
+        ...style,
+        zIndex: isDragging ? '100' : undefined,
+        transform: CSS.Translate.toString(transform),
+      }}
       {...listeners}
       {...attributes}
     >
       <img
+        alt={alt}
         className='select-none rounded-lg p-1 transition-[padding] group-hover:p-[1px]'
         src={img}
-        alt={alt}
         width={100}
       />
       {children}

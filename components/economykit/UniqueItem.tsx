@@ -20,11 +20,11 @@ export const UniqueItem: FC<DragProps & UniqueItemModel> = ({
 
   return (
     <BaseItem
-      id={id}
-      data={data}
-      img={image}
-      draggable={draggable}
       className='outline-[color:var(--ring-color)]'
+      data={data}
+      draggable={draggable}
+      id={id}
+      img={image}
       // @ts-expect-error CSS Properties
       style={{ '--ring-color': colour }}
     />

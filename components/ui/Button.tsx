@@ -27,14 +27,14 @@ export const Button: FC<PropsWithChildren<Props>> = ({
 
   return (
     <button
-      type='button'
-      disabled={disabled}
       className={clsx(
         'rounded-md bg-primary px-4 py-2 text-[0.9rem] text-white transition-all enabled:hover:bg-primary-dark enabled:active:bg-primary-darker disabled:opacity-50',
         className,
       )}
-      style={style}
+      disabled={disabled}
       onClick={handleClick}
+      style={style}
+      type='button'
     >
       {children}
     </button>

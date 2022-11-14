@@ -50,24 +50,24 @@ export const TextInput: FC<Props> = ({
   return (
     <div className='flex flex-col gap-2'>
       {label ? (
-        <label htmlFor={id} className='text-sm'>
+        <label className='text-sm' htmlFor={id}>
           {label}
         </label>
       ) : null}
 
       <input
-        id={id}
-        type='text'
         className={clsx(
           'block rounded-md border-gray-300 text-[0.9rem] shadow-sm focus:border-primary focus:ring-primary',
           className,
         )}
-        style={style}
-        placeholder={placeholder}
         disabled={disabled}
-        value={value}
+        id={id}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        style={style}
+        type='text'
+        value={value}
       />
     </div>
   )

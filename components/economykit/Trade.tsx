@@ -111,14 +111,14 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
     <Card>
       <div className='flex flex-col gap-8 lg:flex-row lg:gap-4'>
         <TradeInterface
-          title='Your Items'
           id={originator.playerID}
-          uniqueInventory={originUniqueInventory}
-          stackInventory={originStackInventory}
-          uniqueTrade={originUniqueTrade}
-          stackTrade={originStackTrade}
-          onDragOver={onDragOver}
           onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+          stackInventory={originStackInventory}
+          stackTrade={originStackTrade}
+          title='Your Items'
+          uniqueInventory={originUniqueInventory}
+          uniqueTrade={originUniqueTrade}
         />
 
         <div className='flex flex-grow flex-col items-center justify-center'>
@@ -134,14 +134,14 @@ export const Trade: FC<Props> = ({ originator, recipient }) => {
         </div>
 
         <TradeInterface
-          title='Their Items'
           id={recipient.playerID}
-          uniqueInventory={recipUniqueInventory}
-          stackInventory={recipStackInventory}
-          uniqueTrade={recipUniqueTrade}
-          stackTrade={recipStackTrade}
-          onDragOver={onDragOver}
           onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+          stackInventory={recipStackInventory}
+          stackTrade={recipStackTrade}
+          title='Their Items'
+          uniqueInventory={recipUniqueInventory}
+          uniqueTrade={recipUniqueTrade}
         />
       </div>
     </Card>
@@ -176,12 +176,12 @@ const TradeInterface: FC<TradeInterfaceProps> = ({
   <div className='flex flex-col items-center'>
     <h2 className='mb-3 text-center text-lg font-semibold'>{title}</h2>
 
-    <DndContext onDragOver={onDragOver} onDragEnd={onDragEnd}>
+    <DndContext onDragEnd={onDragEnd} onDragOver={onDragOver}>
       <DragItemGrid
-        id={`${id}/items`}
-        height={3}
-        uniqueItems={uniqueInventory}
         commodityStacks={stackInventory}
+        height={3}
+        id={`${id}/items`}
+        uniqueItems={uniqueInventory}
       />
 
       <h3 className='my-3 text-center text-sm font-semibold text-black/60'>
@@ -189,9 +189,9 @@ const TradeInterface: FC<TradeInterfaceProps> = ({
       </h3>
 
       <DragExpandingItemGrid
+        commodityStacks={stackTrade}
         id={`${id}/trade`}
         uniqueItems={uniqueTrade}
-        commodityStacks={stackTrade}
       />
     </DndContext>
   </div>
@@ -204,12 +204,12 @@ type IgnoreFields = 'blankItem' | 'commodityStack' | 'uniqueItem'
 type DragGridProps = Omit<ItemGridProps, IgnoreFields>
 const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (
   <ItemGrid
-    droppable
-    uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
-    commodityStack={item => (
-      <CommodityStack key={item.id} draggable {...item} />
-    )}
     blankItem={idx => <BlankItem key={idx} />}
+    commodityStack={item => (
+      <CommodityStack draggable key={item.id} {...item} />
+    )}
+    droppable
+    uniqueItem={item => <UniqueItem draggable key={item.id} {...item} />}
     {...props}
   />
 )
@@ -217,12 +217,12 @@ const DragItemGrid: FC<DragGridProps> = ({ ...props }) => (
 type DragExpandingGridProps = Omit<ExpandingItemGridProps, IgnoreFields>
 const DragExpandingItemGrid: FC<DragExpandingGridProps> = ({ ...props }) => (
   <ExpandingItemGrid
-    droppable
-    uniqueItem={item => <UniqueItem key={item.id} draggable {...item} />}
-    commodityStack={item => (
-      <CommodityStack key={item.id} draggable {...item} />
-    )}
     blankItem={idx => <BlankItem key={idx} />}
+    commodityStack={item => (
+      <CommodityStack draggable key={item.id} {...item} />
+    )}
+    droppable
+    uniqueItem={item => <UniqueItem draggable key={item.id} {...item} />}
     {...props}
   />
 )

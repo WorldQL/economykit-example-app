@@ -25,7 +25,7 @@ export const Navbar: FC<Props> = ({ nav }) => {
       <div className='mr-4 text-lg font-bold'>Example App</div>
 
       {nav.map(([item, href]) => (
-        <NavbarItem key={href} href={href}>
+        <NavbarItem href={href} key={href}>
           {item}
         </NavbarItem>
       ))}
@@ -48,7 +48,7 @@ const NavbarItem: FC<PropsWithChildren<ItemProps>> = ({ href, children }) => {
   const active = useMemo<boolean>(() => href === pathname, [href, pathname])
 
   return (
-    <Link passHref href={href}>
+    <Link href={href} passHref>
       <a
         className={clsx(
           'flex h-full flex-col justify-center border-y-2 border-y-transparent transition-colors',

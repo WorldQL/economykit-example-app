@@ -32,7 +32,7 @@ const LoginPage: NextPage = () => {
         <title>EconomyKit Example App | Log In</title>
       </Head>
 
-      <Login loading={loading} error={error} onLogin={login} />
+      <Login error={error} loading={loading} onLogin={login} />
     </>
   )
 }
