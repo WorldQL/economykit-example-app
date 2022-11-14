@@ -2,7 +2,8 @@ import {
   type CommodityStack,
   type UniqueItem,
 } from '@worldql/economykit-client'
-import { type Reducer, useReducer } from 'react'
+import { enableMapSet } from 'immer'
+import { useImmerReducer } from 'use-immer'
 
 type Action = 'add' | 'remove'
 interface ActionData {
@@ -12,33 +13,33 @@ interface ActionData {
 }
 
 export type ItemFilter = Map<string, number>
-type ItemsReducer = Reducer<ItemFilter, ActionData>
+enableMapSet()
 
 export const useItemFilter = () => {
-  return useReducer<ItemsReducer>((previousState, data) => {
+  return useImmerReducer<ItemFilter, ActionData>((previousState, data) => {
     switch (data.action) {
       case 'add': {
         const { entity, quantity } = data
 
         const qty = previousState.get(entity.id) ?? 0
-        const value = qty + quantity
+        const max = entity.type === 'commodityStack' ? entity.quantity : 1
+        const value = qty + Math.min(quantity, max)
 
         previousState.set(entity.id, value)
-        return new Map(previousState)
+        break
       }
 
       case 'remove': {
         const { entity, quantity } = data
 
         const qty = previousState.get(entity.id) ?? 0
-        const value = qty - quantity
+        const value = Math.max(0, qty - quantity)
 
-        previousState.set(entity.id, value)
-        return new Map(previousState)
+        if (value === 0) previousState.delete(entity.id)
+        else previousState.set(entity.id, value)
+
+        break
       }
-
-      default:
-        return previousState
     }
   }, new Map())
 }
