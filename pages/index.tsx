@@ -18,7 +18,7 @@ const Root: NextPage = () => {
   const { push } = useRouter()
   const { inventory, error: inventoryError } = useInventory(client)
   const { players, error: playersError } = usePlayers(client)
-  const { trades, error: tradesError } = useTrades(client)
+  const { trades, error: tradesError } = useTrades(client, true)
 
   const viewInventory = useCallback(() => {
     void push('/inventory')

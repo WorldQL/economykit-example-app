@@ -19,7 +19,8 @@ export const useItemGrid = (
   const squared = width * height
 
   const allItems = useMemo<AllItems>(() => {
-    const combined = [...uniqueItems, ...commodityStacks]
+    const stacks = commodityStacks.filter(stack => stack.quantity > 0)
+    const combined = [...uniqueItems, ...stacks]
     const nearest = Math.ceil(combined.length / squared) * squared
 
     const pad = nearest === 0 ? squared : nearest - combined.length

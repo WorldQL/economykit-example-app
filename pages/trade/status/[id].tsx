@@ -21,7 +21,7 @@ const TradePending: NextPage = () => {
     return value
   }, [isReady, query])
 
-  const { trade, loading, error } = useTrade(client, tradeID)
+  const { trade, loading, error, mutate } = useTrade(client, tradeID)
 
   if (error) {
     return (
@@ -42,7 +42,7 @@ const TradePending: NextPage = () => {
       </Head>
 
       <Page username={name}>
-        <Trade clientID={client.id} trade={trade} />
+        <Trade client={client} mutate={mutate} trade={trade} />
       </Page>
     </>
   )

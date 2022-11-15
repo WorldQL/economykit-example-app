@@ -142,12 +142,17 @@ export const TradeRequest: FC<Props> = ({ client, originator, recipient }) => {
     if (!isConfirmed) return
 
     try {
+      const cleanStackID = ({ id, ...stack }: CommodityStackModel) => ({
+        id: id.split('/')[0],
+        ...stack,
+      })
+
       const trade = await client.placeTradeRequest({
         sender: originator.playerID,
         recipient: recipient.playerID,
-        sentCommodities: originStackTrade,
+        sentCommodities: originStackTrade.map(stack => cleanStackID(stack)),
         sentUniqueItems: originUniqueTrade.map(item => item.id),
-        receivedCommodities: recipStackTrade,
+        receivedCommodities: recipStackTrade.map(stack => cleanStackID(stack)),
         receivedUniqueItems: recipUniqueTrade.map(item => item.id),
       })
 

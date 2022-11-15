@@ -11,11 +11,17 @@ interface UseTrades {
 
 export const useTrades: (
   client: PlayerScopedClient | undefined,
-) => UseTrades = client => {
+  activeOnly?: boolean,
+) => UseTrades = (client, activeOnly = false) => {
+  const active = useMemo(() => (activeOnly ? 'active' : 'all'), [activeOnly])
   const { data: trades, error } = useSWR<readonly Trade[], AxiosError>(
-    client && [`/trades`, client],
-    async (_: unknown, client: PlayerScopedClient) => {
-      return client.listTrades()
+    client && [`/trades/${active}`, client, active],
+    async (
+      _: unknown,
+      client: PlayerScopedClient,
+      active: 'active' | 'all',
+    ) => {
+      return client.listTrades(active === 'active')
     },
   )
 

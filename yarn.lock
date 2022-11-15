@@ -900,15 +900,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@worldql/economykit-client@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "@worldql/economykit-client@npm:0.4.2"
+"@worldql/economykit-client@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "@worldql/economykit-client@npm:0.4.4"
   dependencies:
     axios: ^1.1.3
     iso-url: ^1.2.1
     jwt-decode: ^3.1.2
     tslib: ^2.4.1
-  checksum: 474f7a9ea00075748d32861a7287f7c4f022769c8502c868c5f63e21567180e6bdc1923a13e1b4cd8f08ca3dd675796ac0c58bb2386b1398d87df7c9619933c7
+  checksum: b06bfaefa4e98952873de3e34b22c0670023c10522f7bf23db3c5a256c1a8f94abf8f722e8cc427c475ba7680b8ed4c600a0c6db45003295d2d70ff23519241a
   languageName: node
   linkType: hard
 
@@ -1774,7 +1774,7 @@ __metadata:
     "@types/node": ^18.11.9
     "@types/react": ^18.0.25
     "@types/react-dom": ^18.0.8
-    "@worldql/economykit-client": ^0.4.2
+    "@worldql/economykit-client": ^0.4.4
     autoprefixer: ^10.4.13
     axios: ^1.1.3
     chunk: ^0.0.3
