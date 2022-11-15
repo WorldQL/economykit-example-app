@@ -1,10 +1,10 @@
 import { type FC, useId } from 'react'
-import { BaseItem } from './BaseItem'
+import { BaseItem, type ClickProps } from './BaseItem'
 
 const BLANK_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 
-export const BlankItem: FC = () => {
+export const BlankItem: FC<ClickProps> = ({ onClick }) => {
   const id = useId()
 
   return (
@@ -13,6 +13,7 @@ export const BlankItem: FC = () => {
       draggable={false}
       id={id}
       img={BLANK_PIXEL}
+      onClick={onClick}
     />
   )
 }

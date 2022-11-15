@@ -1,9 +1,10 @@
 import fnv1a from '@sindresorhus/fnv1a'
 import { type UniqueItem as UniqueItemModel } from '@worldql/economykit-client'
 import { type FC, useMemo } from 'react'
-import { BaseItem, type DragProps } from './BaseItem'
+import { BaseItem, type ClickProps, type DragProps } from './BaseItem'
 
-export const UniqueItem: FC<DragProps & UniqueItemModel> = ({
+export const UniqueItem: FC<ClickProps & DragProps & UniqueItemModel> = ({
+  onClick,
   draggable,
   data: rawData,
   ...item
@@ -26,6 +27,7 @@ export const UniqueItem: FC<DragProps & UniqueItemModel> = ({
       draggable={draggable}
       id={id}
       img={image}
+      onClick={onClick}
       // @ts-expect-error CSS Properties
       style={{ '--ring-color': colour }}
     />

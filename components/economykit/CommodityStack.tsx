@@ -1,12 +1,10 @@
 import { type CommodityStack as CommodityStackModel } from '@worldql/economykit-client'
 import { type FC, useMemo } from 'react'
-import { BaseItem, type DragProps } from './BaseItem'
+import { BaseItem, type ClickProps, type DragProps } from './BaseItem'
 
-export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
-  draggable,
-  data: rawData,
-  ...stack
-}) => {
+export const CommodityStack: FC<
+  ClickProps & CommodityStackModel & DragProps
+> = ({ onClick, draggable, data: rawData, ...stack }) => {
   const { id, quantity, image, displayName } = stack
   const data = useMemo(() => ({ ...rawData, ...stack }), [stack, rawData])
 
@@ -26,6 +24,7 @@ export const CommodityStack: FC<CommodityStackModel & DragProps> = ({
       draggable={draggable}
       id={id}
       img={image}
+      onClick={onClick}
     >
       <div className='absolute top-[1px] left-[1px] rounded bg-black/60 px-1 text-xs text-white'>
         {qty}

@@ -1,7 +1,12 @@
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import { clsx } from 'clsx'
-import { type CSSProperties, type FC, type PropsWithChildren } from 'react'
+import {
+  type CSSProperties,
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+} from 'react'
 
 interface Props {
   id: string
@@ -13,12 +18,17 @@ interface Props {
   style?: CSSProperties
 }
 
+export interface ClickProps {
+  onClick?(id: string): void
+}
+
 export interface DragProps {
   draggable?: boolean
   data?: Record<string, unknown>
 }
 
-export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
+type AllProps = PropsWithChildren<ClickProps & DragProps & Props>
+export const BaseItem: FC<AllProps> = ({
   id,
   data,
   draggable = false,
@@ -27,6 +37,7 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
   className,
   style,
   children,
+  onClick,
 }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -34,6 +45,10 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
       data,
       disabled: !draggable,
     })
+
+  const handleClick = useCallback(() => {
+    if (typeof onClick === 'function') onClick(id)
+  }, [id, onClick])
 
   return (
     <div
@@ -45,6 +60,7 @@ export const BaseItem: FC<PropsWithChildren<DragProps & Props>> = ({
         'group cursor-pointer',
         className,
       )}
+      onClick={handleClick}
       ref={setNodeRef}
       style={{
         ...style,
