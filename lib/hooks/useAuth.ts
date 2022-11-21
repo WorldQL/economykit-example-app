@@ -22,12 +22,20 @@ const setDataStorage: (data: AuthData) => void = data => {
 interface State {
   loaded: boolean
   data: PlayerScopedClient | undefined
+  error: Error | undefined
 }
 
 const { useGlobalState } = createGlobalState<State>({
   loaded: false,
   data: undefined,
+  error: undefined,
 })
+
+interface Props {
+  onSuccess?(client: Readonly<PlayerScopedClient>): void
+  onError?(error: Error): void
+  onLogout?(): void
+}
 
 interface UseAuth extends State {
   authenticate(this: void, name: string): Promise<void>
@@ -37,6 +45,7 @@ interface UseAuth extends State {
 export const useAuth: () => UseAuth = () => {
   const [loaded, setLoaded] = useGlobalState('loaded')
   const [data, setDataMemory] = useGlobalState('data')
+  const [error, setError] = useGlobalState('error')
 
   const setData = useCallback(
     (data: AuthData) => {
@@ -63,18 +72,19 @@ export const useAuth: () => UseAuth = () => {
     async (name: string) => {
       try {
         const { data } = await axios.post<PlayerAuthAPI>('/api/login', { name })
+
         setData(data)
+        setError(undefined)
       } catch (error) {
-        console.error(error)
-        // TODO
+        if (error instanceof Error) setError(error)
+        else throw error
       }
     },
-    [setData],
+    [setData, setError],
   )
 
   const logout = useCallback(() => setData(undefined), [setData])
-
-  return { loaded, data, authenticate, logout }
+  return { loaded, data, error, authenticate, logout }
 }
 
 export const useEnsureAuth = () => {
@@ -93,7 +103,6 @@ export const useEnsureAuth = () => {
 }
 
 export const useEnsureLogin = () => {
-  const { loaded, data, authenticate } = useAuth()
   const { query, replace } = useRouter()
 
   const redirect = useCallback(async () => {
@@ -101,9 +110,10 @@ export const useEnsureLogin = () => {
     await replace(redirect ?? '/')
   }, [query.redir, replace])
 
+  const { loaded, data, error, authenticate } = useAuth()
   useEffect(() => {
     if (loaded && data !== undefined) void redirect()
   }, [loaded, data, redirect])
 
-  return { authenticate, redirect }
+  return { loaded, error, authenticate, redirect }
 }

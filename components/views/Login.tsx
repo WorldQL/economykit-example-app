@@ -2,7 +2,6 @@ import { type FC, useCallback, useState } from 'react'
 import { Button } from '~/components/ui/Button'
 import { Card } from '~/components/ui/Card'
 import { TextInput } from '~/components/ui/TextInput'
-import { Error } from '~/components/views/Error'
 
 interface Props {
   loading: boolean
@@ -18,11 +17,6 @@ export const Login: FC<Props> = ({ loading, error, onLogin }) => {
     if (typeof onLogin === 'function') onLogin(username)
   }, [username, onLogin])
 
-  if (error) {
-    // TODO: Better error message
-    return <Error>Failed to log in!</Error>
-  }
-
   return (
     <div className='flex h-full flex-col items-center justify-center'>
       <Card className='flex w-96 flex-col gap-3'>
@@ -37,6 +31,12 @@ export const Login: FC<Props> = ({ loading, error, onLogin }) => {
           onSubmit={handleClick}
           value={username}
         />
+
+        {!error ? null : (
+          <span className='-mt-1 mb-1 text-sm text-red-500'>
+            Failed to log in.
+          </span>
+        )}
 
         <Button disabled={loading} onClick={handleClick}>
           {loading ? 'Loading...' : 'Sign In'}
