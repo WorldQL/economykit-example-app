@@ -9,9 +9,10 @@ import { useAuth } from '~/lib/hooks/useAuth'
 export type NavItems = [name: string, href: string][]
 interface Props {
   nav: NavItems
+  username: string
 }
 
-export const Navbar: FC<Props> = ({ nav }) => {
+export const Navbar: FC<Props> = ({ nav, username }) => {
   const { logout } = useAuth()
   const { push } = useRouter()
 
@@ -31,6 +32,10 @@ export const Navbar: FC<Props> = ({ nav }) => {
       ))}
 
       <div className='flex-grow' />
+
+      <div>
+        <strong>{username}</strong>
+      </div>
 
       <div>
         <Button onClick={handleSignOut}>Sign Out</Button>
